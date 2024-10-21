@@ -16,12 +16,21 @@ namespace Microsoft.IdentityModel.Tokens
     public abstract class BaseConfigurationManager
     {
         private TimeSpan _automaticRefreshInterval = DefaultAutomaticRefreshInterval;
+        internal double _automaticRefreshIntervalInSeconds = DefaultAutomaticRefreshInterval.TotalSeconds;
+        internal double _maxJitter = DefaultAutomaticRefreshInterval.TotalSeconds / 20;
         private TimeSpan _refreshInterval = DefaultRefreshInterval;
+        internal double _requestRefreshIntervalInSeconds = DefaultRefreshInterval.TotalSeconds;
         private TimeSpan _lastKnownGoodLifetime = DefaultLastKnownGoodConfigurationLifetime;
         private BaseConfiguration _lastKnownGoodConfiguration;
         private DateTime? _lastKnownGoodConfigFirstUse;
+        internal Random _random = new();
+
+        // Seconds since the BaseConfigurationManager was created when the last refresh occurred with a %5 random jitter.
+        internal int _timeInSecondsWhenLastRefreshOccurred;
+        internal int _timeInSecondsWhenLastRequestRefreshWasRequested;
 
         internal EventBasedLRUCache<BaseConfiguration, DateTime> _lastKnownGoodConfigurationCache;
+
 
         /// <summary>
         /// Gets or sets the <see cref="TimeSpan"/> that controls how often an automatic metadata refresh should occur.
@@ -32,9 +41,59 @@ namespace Microsoft.IdentityModel.Tokens
             set
             {
                 if (value < MinimumAutomaticRefreshInterval)
-                    throw LogHelper.LogExceptionMessage(new ArgumentOutOfRangeException(nameof(value), LogHelper.FormatInvariant(LogMessages.IDX10108, LogHelper.MarkAsNonPII(MinimumAutomaticRefreshInterval), LogHelper.MarkAsNonPII(value))));
+                    throw LogHelper.LogExceptionMessage(
+                        new ArgumentOutOfRangeException(
+                            nameof(value),
+                            LogHelper.FormatInvariant(
+                                LogMessages.IDX10108,
+                                LogHelper.MarkAsNonPII(MinimumAutomaticRefreshInterval),
+                                LogHelper.MarkAsNonPII(value))));
 
                 _automaticRefreshInterval = value;
+                Interlocked.Exchange(ref _automaticRefreshIntervalInSeconds, value.TotalSeconds);
+                Interlocked.Exchange(ref _maxJitter, value.TotalSeconds / 20);
+            }
+        }
+
+        /// <summary>
+        /// Records the time this instance was created.
+        /// Used to determine if the automatic refresh or request refresh interval has passed.
+        /// The logic is to remember the number of seconds since startup that the last refresh occurred.
+        /// Store that value in _timeInSecondsWhenLastAutomaticRefreshOccurred or _timeInSecondsWhenLastRequestRefreshOccurred.
+        /// Then compare to (UtcNow - Startup).TotalSeconds.
+        /// The set is used for testing purposes.
+        /// </summary>
+        internal DateTimeOffset StartupTime { get; set; } = DateTimeOffset.UtcNow;
+
+        /// <summary>
+        ///  Incremented each time <see cref="GetBaseConfigurationAsync(CancellationToken)"/> results in a http request.
+        /// </summary>
+        internal long _numberOfTimesAutomaticRefreshRequested;
+
+        /// <summary>
+        /// Thread safe getter for <see cref="_numberOfTimesAutomaticRefreshRequested"/>.
+        /// </summary>
+        internal long NumberOfTimesAutomaticRefreshRequested
+        {
+            get
+            {
+                return Interlocked.Read(ref _numberOfTimesAutomaticRefreshRequested);
+            }
+        }
+
+        /// <summary>
+        /// Incremented each time <see cref="RequestRefresh"/> results in a http request.
+        /// </summary>
+        internal long _numberOfTimesRequestRefreshRequested;
+
+        /// <summary>
+        /// Thread safe getter for <see cref="_numberOfTimesRequestRefreshRequested"/>.
+        /// </summary>
+        internal long NumberOfTimesRequestRefreshRequested
+        {
+            get
+            {
+                return Interlocked.Read(ref _numberOfTimesRequestRefreshRequested);
             }
         }
 
@@ -165,6 +224,7 @@ namespace Microsoft.IdentityModel.Tokens
                     throw LogHelper.LogExceptionMessage(new ArgumentOutOfRangeException(nameof(value), LogHelper.FormatInvariant(LogMessages.IDX10107, LogHelper.MarkAsNonPII(MinimumRefreshInterval), LogHelper.MarkAsNonPII(value))));
 
                 _refreshInterval = value;
+                Interlocked.Exchange(ref _requestRefreshIntervalInSeconds, value.TotalSeconds);
             }
         }
 

@@ -12,12 +12,24 @@ Microsoft.IdentityModel.Tokens.AudienceValidationError.TokenAudiences.get -> Sys
 Microsoft.IdentityModel.Tokens.AudienceValidationError.TokenAudiences.set -> void
 Microsoft.IdentityModel.Tokens.AudienceValidationError.ValidAudiences.get -> System.Collections.Generic.IList<string>
 Microsoft.IdentityModel.Tokens.AudienceValidationError.ValidAudiences.set -> void
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager.NumberOfTimesAutomaticRefreshRequested.get -> long
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager.NumberOfTimesRequestRefreshRequested.get -> long
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._numberOfTimesAutomaticRefreshRequested -> long
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._numberOfTimesRequestRefreshRequested -> long
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._timeInSecondsWhenLastRefreshOccurred -> int
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._timeInSecondsWhenLastRequestRefreshWasRequested -> int
 Microsoft.IdentityModel.Tokens.IssuerSigningKeyValidationError
 Microsoft.IdentityModel.Tokens.IssuerSigningKeyValidationError.InvalidSigningKey.get -> Microsoft.IdentityModel.Tokens.SecurityKey
 Microsoft.IdentityModel.Tokens.IssuerSigningKeyValidationError.InvalidSigningKey.set -> void
 Microsoft.IdentityModel.Tokens.IssuerSigningKeyValidationError.IssuerSigningKeyValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, Microsoft.IdentityModel.Tokens.SecurityKey invalidSigningKey, Microsoft.IdentityModel.Tokens.ValidationFailureType failureType = null, System.Exception innerException = null) -> void
 Microsoft.IdentityModel.Tokens.IssuerValidationError.InvalidIssuer.get -> string
 Microsoft.IdentityModel.Tokens.IssuerValidationError.IssuerValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, string invalidIssuer, System.Exception innerException = null) -> void
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager.StartupTime.get -> System.DateTimeOffset
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager.StartupTime.set -> void
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._automaticRefreshIntervalInSeconds -> double
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._maxJitter -> double
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._random -> System.Random
+Microsoft.IdentityModel.Tokens.BaseConfigurationManager._requestRefreshIntervalInSeconds -> double
 Microsoft.IdentityModel.Tokens.IssuerValidationSource.IssuerMatchedConfiguration = 1 -> Microsoft.IdentityModel.Tokens.IssuerValidationSource
 Microsoft.IdentityModel.Tokens.IssuerValidationSource.IssuerMatchedValidationParameters = 2 -> Microsoft.IdentityModel.Tokens.IssuerValidationSource
 Microsoft.IdentityModel.Tokens.LifetimeValidationError.Expires.get -> System.DateTime?
