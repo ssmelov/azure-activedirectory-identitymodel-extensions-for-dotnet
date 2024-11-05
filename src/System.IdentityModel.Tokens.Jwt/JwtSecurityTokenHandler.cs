@@ -608,7 +608,7 @@ namespace System.IdentityModel.Tokens.Jwt
             JwtPayload payload = new JwtPayload(issuer, tokenDescriptor.Audience, tokenDescriptor.Audiences, (subject == null ? null : OutboundClaimTypeTransform(subject.Claims)), (claimCollection == null ? null : OutboundClaimTypeTransform(claimCollection)), notBefore, expires, issuedAt);
             SigningCredentials signingCredentials = tokenDescriptor.SigningCredentials;
             string tokenType = tokenDescriptor.TokenType;
-            JwtHeader header = new JwtHeader(signingCredentials, OutboundAlgorithmMap, tokenType, tokenDescriptor.AdditionalInnerHeaderClaims, tokenDescriptor.IncludeKeyIdInHeader);
+            JwtHeader header = new JwtHeader(signingCredentials, OutboundAlgorithmMap, tokenType, tokenDescriptor.AdditionalInnerHeaderClaims, tokenDescriptor.IncludeKeyIdInHeader, tokenDescriptor.ExcludedDefaultHeaderClaims);
 
             if (LogHelper.IsEnabled(EventLogLevel.Verbose))
                 LogHelper.LogVerbose(LogMessages.IDX12721, LogHelper.MarkAsNonPII(issuer ?? "null"), LogHelper.MarkAsNonPII(payload.Aud.ToString() ?? "null"));

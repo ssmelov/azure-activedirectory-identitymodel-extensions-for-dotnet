@@ -878,6 +878,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             nbfSet |= nbfReset;
         }
 
+        internal static bool IncludeDefaultHeaderClaim(string claim, ISet<string> excludedDefaultHeaderClaims) =>
+            excludedDefaultHeaderClaims is null ||
+            excludedDefaultHeaderClaims.Count == 0 ||
+            !excludedDefaultHeaderClaims.Contains(claim);
+
         internal static void WriteJwsHeader(
             ref Utf8JsonWriter writer,
             SigningCredentials signingCredentials,
@@ -923,19 +928,22 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             writer.WriteStartObject();
 
             SigningCredentials signingCredentials = tokenDescriptor.SigningCredentials;
+            ISet<string> excludedDefaultHeaderClaims = tokenDescriptor.ExcludedDefaultHeaderClaims;
             if (signingCredentials == null)
             {
-                writer.WriteString(JwtHeaderUtf8Bytes.Alg, SecurityAlgorithms.None);
+                if (IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Alg, excludedDefaultHeaderClaims))
+                    writer.WriteString(JwtHeaderUtf8Bytes.Alg, SecurityAlgorithms.None);
             }
             else
             {
-                writer.WriteString(JwtHeaderUtf8Bytes.Alg, signingCredentials.Algorithm);
+                if (IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Alg, excludedDefaultHeaderClaims))
+                    writer.WriteString(JwtHeaderUtf8Bytes.Alg, signingCredentials.Algorithm);
                 if (tokenDescriptor.IncludeKeyIdInHeader)
                 {
-                    if (signingCredentials.Key.KeyId != null)
+                    if (signingCredentials.Key.KeyId != null && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Kid, excludedDefaultHeaderClaims))
                         writer.WriteString(JwtHeaderUtf8Bytes.Kid, signingCredentials.Key.KeyId);
 
-                    if (signingCredentials.Key is X509SecurityKey x509SecurityKey)
+                    if (signingCredentials.Key is X509SecurityKey x509SecurityKey && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.X5t, excludedDefaultHeaderClaims))
                         writer.WriteString(JwtHeaderUtf8Bytes.X5t, x509SecurityKey.X5t);
                 }
             }
@@ -964,7 +972,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                 }
             }
 
-            if (!typeWritten)
+            if (!typeWritten && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Typ, excludedDefaultHeaderClaims))
             {
                 string tokenType = tokenDescriptor.TokenType;
                 writer.WriteString(JwtHeaderUtf8Bytes.Typ, string.IsNullOrEmpty(tokenType) ? JwtConstants.HeaderType : tokenType);
@@ -998,9 +1006,12 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     writer = new Utf8JsonWriter(memoryStream, new JsonWriterOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
                     writer.WriteStartObject();
 
+                    ISet<string> excludedDefaultHeaderClaims = tokenDescriptor.ExcludedDefaultHeaderClaims;
                     EncryptingCredentials encryptingCredentials = tokenDescriptor.EncryptingCredentials;
-                    writer.WriteString(JwtHeaderUtf8Bytes.Alg, encryptingCredentials.Alg);
-                    writer.WriteString(JwtHeaderUtf8Bytes.Enc, encryptingCredentials.Enc);
+                    if (IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Alg, excludedDefaultHeaderClaims))
+                        writer.WriteString(JwtHeaderUtf8Bytes.Alg, encryptingCredentials.Alg);
+                    if (IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Enc, excludedDefaultHeaderClaims))
+                        writer.WriteString(JwtHeaderUtf8Bytes.Enc, encryptingCredentials.Enc);
 
                     // Since developers may have already worked around this issue, implicitly taking a dependency on the
                     // old behavior, we guard the new behavior behind an AppContext switch. The new/RFC-conforming behavior
@@ -1010,10 +1021,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     bool includeKeyIdInHeader = tokenDescriptor.IncludeKeyIdInHeader;
                     if (AppContextSwitches.UseRfcDefinitionOfEpkAndKid)
                     {
-                        if (includeKeyIdInHeader && encryptingCredentials.KeyExchangePublicKey.KeyId != null)
+                        if (includeKeyIdInHeader && encryptingCredentials.KeyExchangePublicKey.KeyId != null && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Kid, excludedDefaultHeaderClaims))
                             writer.WriteString(JwtHeaderUtf8Bytes.Kid, encryptingCredentials.KeyExchangePublicKey.KeyId);
 
-                        if (SupportedAlgorithms.EcdsaWrapAlgorithms.Contains(encryptingCredentials.Alg))
+                        if (SupportedAlgorithms.EcdsaWrapAlgorithms.Contains(encryptingCredentials.Alg) && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Epk, excludedDefaultHeaderClaims))
                         {
                             writer.WritePropertyName(JwtHeaderUtf8Bytes.Epk);
                             string publicJwk = JsonWebKeyConverter.ConvertFromSecurityKey(encryptingCredentials.Key).RepresentAsAsymmetricPublicJwk();
@@ -1026,12 +1037,12 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     }
                     else
                     {
-                        if (includeKeyIdInHeader && encryptingCredentials.Key.KeyId != null)
+                        if (includeKeyIdInHeader && encryptingCredentials.Key.KeyId != null && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Kid, excludedDefaultHeaderClaims))
                             writer.WriteString(JwtHeaderUtf8Bytes.Kid, encryptingCredentials.Key.KeyId);
                     }
 
                     string compressionAlgorithm = tokenDescriptor.CompressionAlgorithm;
-                    if (!string.IsNullOrEmpty(compressionAlgorithm))
+                    if (!string.IsNullOrEmpty(compressionAlgorithm) && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Zip, excludedDefaultHeaderClaims))
                         writer.WriteString(JwtHeaderUtf8Bytes.Zip, compressionAlgorithm);
 
                     bool typeWritten = false;
@@ -1051,13 +1062,13 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         }
                     }
 
-                    if (!typeWritten)
+                    if (!typeWritten && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Typ, excludedDefaultHeaderClaims))
                     {
                         string tokenType = tokenDescriptor.TokenType;
                         writer.WriteString(JwtHeaderUtf8Bytes.Typ, string.IsNullOrEmpty(tokenType) ? JwtConstants.HeaderType : tokenType);
                     }
 
-                    if (!ctyWritten)
+                    if (!ctyWritten && IncludeDefaultHeaderClaim(JwtHeaderParameterNames.Cty, excludedDefaultHeaderClaims))
                         writer.WriteString(JwtHeaderUtf8Bytes.Cty, JwtConstants.HeaderType);
 
                     writer.WriteEndObject();
