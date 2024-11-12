@@ -6,7 +6,7 @@
     <!-- This test only needs to run on .NET -->
     <TargetFrameworks>net8.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(TargetNet9)'== 'True'">$(TargetFrameworks);net9.0</TargetFrameworks>
-    <langversion>12</langversion>
+    <langversion>13</langversion>
     <Version>1.0.0-preview</Version>
   </PropertyGroup>
 
