@@ -1475,11 +1475,11 @@ namespace Microsoft.IdentityModel.TestUtils
             }
             else
             {
-                // If the stack trace is present, ensure it contains the file name where the error occurred.
+                // If the stack trace is present, ensure it contains the expected amount of frames.
                 var stackTraceFrames = exception1.StackTrace.Trim('\n').Split('\n');
                 if (stackTraceFrames.Length != validationError2.StackFrames.Count)
                 {
-                    localContext.Diffs.Add($"(exception1.StackTrace.Split(\"\\n\").Length != validationError2.StackFrames.Count: " +
+                    localContext.Diffs.Add($"(exception1.StackTrace.Trim('\\n\').Split('\\n').Length != validationError2.StackFrames.Count: " +
                         $"{stackTraceFrames.Length}, {validationError2.StackFrames.Count})");
                 }
             }
