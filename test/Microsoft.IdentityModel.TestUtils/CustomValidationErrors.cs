@@ -39,7 +39,12 @@ namespace Microsoft.IdentityModel.TestUtils
         internal override Exception GetException()
         {
             if (ExceptionType == typeof(CustomSecurityTokenInvalidIssuerException))
-                return new CustomSecurityTokenInvalidIssuerException(MessageDetail.Message) { InvalidIssuer = InvalidIssuer };
+            {
+                var exception = new CustomSecurityTokenInvalidIssuerException(MessageDetail.Message, InnerException) { InvalidIssuer = InvalidIssuer };
+                exception.SetValidationError(this);
+
+                return exception;
+            }
 
             return base.GetException();
         }

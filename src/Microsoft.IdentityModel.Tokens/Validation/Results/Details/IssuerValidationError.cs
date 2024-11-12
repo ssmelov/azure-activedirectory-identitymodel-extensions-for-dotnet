@@ -40,6 +40,7 @@ namespace Microsoft.IdentityModel.Tokens
                 {
                     InvalidIssuer = InvalidIssuer
                 };
+                exception.SetValidationError(this);
 
                 return exception;
             }

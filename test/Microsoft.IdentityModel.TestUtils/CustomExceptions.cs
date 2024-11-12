@@ -9,16 +9,16 @@ namespace Microsoft.IdentityModel.TestUtils
 {
     internal class CustomSecurityTokenInvalidIssuerException : SecurityTokenInvalidIssuerException
     {
-        public CustomSecurityTokenInvalidIssuerException(string message)
-            : base(message)
+        public CustomSecurityTokenInvalidIssuerException(string message, Exception? innerException)
+            : base(message, innerException)
         {
         }
     }
 
     internal class CustomSecurityTokenException : SystemException
     {
-        public CustomSecurityTokenException(string message)
-            : base(message)
+        public CustomSecurityTokenException(string message, Exception? innerException)
+            : base(message, innerException)
         {
         }
     }
