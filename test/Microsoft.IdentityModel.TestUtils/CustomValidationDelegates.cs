@@ -111,7 +111,7 @@ namespace Microsoft.IdentityModel.TestUtils
             CallContext callContext,
             CancellationToken cancellationToken)
         {
-            throw new CustomSecurityTokenInvalidIssuerException(nameof(IssuerValidatorThrows));
+            throw new CustomSecurityTokenInvalidIssuerException(nameof(IssuerValidatorThrows), null);
         }
 
         internal async static Task<ValidationResult<ValidatedIssuer>> IssuerValidatorCustomIssuerExceptionTypeDelegateAsync(
