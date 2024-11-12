@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -65,17 +66,32 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 return conditionsResult.UnwrapError().AddStackFrame(StackFrames.AssertionConditionsValidationFailed);
             }
 
-            ValidationResult<ValidatedIssuer> issuerValidationResult = await validationParameters.IssuerValidatorAsync(
-                samlToken.Issuer,
-                samlToken,
-                validationParameters,
-                callContext,
-                cancellationToken).ConfigureAwait(false);
-
-            if (!issuerValidationResult.IsValid)
+            try
             {
-                StackFrames.IssuerValidationFailed ??= new StackFrame(true);
-                return issuerValidationResult.UnwrapError().AddStackFrame(StackFrames.IssuerValidationFailed);
+                ValidationResult<ValidatedIssuer> issuerValidationResult = await validationParameters.IssuerValidatorAsync(
+                    samlToken.Issuer,
+                    samlToken,
+                    validationParameters,
+                    callContext,
+                    cancellationToken).ConfigureAwait(false);
+
+                if (!issuerValidationResult.IsValid)
+                {
+                    StackFrames.IssuerValidationFailed ??= new StackFrame(true);
+                    return issuerValidationResult.UnwrapError().AddStackFrame(StackFrames.IssuerValidationFailed);
+                }
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                return new IssuerValidationError(
+                    new MessageDetail(Tokens.LogMessages.IDX10269),
+                    ValidationFailureType.IssuerValidatorThrew,
+                    typeof(SecurityTokenInvalidIssuerException),
+                    ValidationError.GetCurrentStackFrame(),
+                    samlToken.Issuer,
+                    ex);
             }
 
             ValidationResult<SecurityKey> signatureValidationResult = ValidateSignature(samlToken, validationParameters, callContext);
