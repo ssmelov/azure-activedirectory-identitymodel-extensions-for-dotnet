@@ -47,7 +47,7 @@ namespace Microsoft.IdentityModel.AotCompatibility.Tests
 
             var process = new Process();
             // set '-nodereuse:false /p:UseSharedCompilation=false' so the MSBuild and Roslyn server processes don't hang around, which may hang the test in CI
-            process.StartInfo = new ProcessStartInfo("dotnet", $"publish {testAppProject} --self-contained -nodereuse:false /p:UseSharedCompilation=false")
+            process.StartInfo = new ProcessStartInfo("dotnet", $"publish {testAppProject} -f net8.0 --self-contained -nodereuse:false /p:UseSharedCompilation=false")
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
