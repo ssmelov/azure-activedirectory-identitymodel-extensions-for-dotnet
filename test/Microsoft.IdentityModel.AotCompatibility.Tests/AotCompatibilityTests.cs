@@ -32,9 +32,15 @@ namespace Microsoft.IdentityModel.AotCompatibility.Tests
         ///
         /// You can also 'dotnet publish' the 'Microsoft.IdentityModel.AotCompatibility.TestApp.csproj' as well to get the errors.
         /// </summary>
-        [IgnoreOnAzureDevopsFact]
         public void EnsureAotCompatibility()
         {
+            string target = "";
+#if Net8_0
+            target = "net8.0";
+#endif
+#if Net9_0
+            target = "net9.0";
+#endif
             string testAppPath = Path.Combine("..", "..", "..", "..", "Microsoft.IdentityModel.AotCompatibility.TestApp");
             string testAppProject = "Microsoft.IdentityModel.AotCompatibility.TestApp.csproj";
 
@@ -47,7 +53,7 @@ namespace Microsoft.IdentityModel.AotCompatibility.Tests
 
             var process = new Process();
             // set '-nodereuse:false /p:UseSharedCompilation=false' so the MSBuild and Roslyn server processes don't hang around, which may hang the test in CI
-            process.StartInfo = new ProcessStartInfo("dotnet", $"publish {testAppProject} -f net8.0 --self-contained -nodereuse:false /p:UseSharedCompilation=false")
+            process.StartInfo = new ProcessStartInfo("dotnet", $"publish {testAppProject} -f {target} --self-contained -nodereuse:false /p:UseSharedCompilation=false")
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
