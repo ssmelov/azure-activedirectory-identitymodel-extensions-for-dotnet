@@ -32,6 +32,7 @@ namespace Microsoft.IdentityModel.AotCompatibility.Tests
         ///
         /// You can also 'dotnet publish' the 'Microsoft.IdentityModel.AotCompatibility.TestApp.csproj' as well to get the errors.
         /// </summary>
+        [Fact]
         public void EnsureAotCompatibility()
         {
             string target = "";
