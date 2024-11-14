@@ -1481,6 +1481,7 @@ namespace Microsoft.IdentityModel.TestUtils
                 {
                     localContext.Diffs.Add($"(exception1.StackTrace.Trim('\\n\').Split('\\n').Length != validationError2.StackFrames.Count: " +
                         $"{stackTraceFrames.Length}, {validationError2.StackFrames.Count})");
+                    localContext.Diffs.Add($"exception1.StackTrace: {exception1.StackTrace}");
                 }
             }
 
