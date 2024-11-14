@@ -43,6 +43,10 @@ jobs:
       with:
         dotnet-version: 9.0.x
 
+    - powershell: |
+        regedit /s .\build\strongNameBypass.reg
+      displayName: 'Strong Name Bypass'
+
     - name: Run the tests
       run: dotnet test Wilson.sln --collect:"XPlat Code Coverage" --settings:./build/CodeCoverage.runsettings
 
