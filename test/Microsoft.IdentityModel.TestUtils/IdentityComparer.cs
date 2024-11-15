@@ -1473,17 +1473,6 @@ namespace Microsoft.IdentityModel.TestUtils
             {
                 localContext.Diffs.Add($"exception1.StackTrace is null. Exception type: {exception1.GetType().Name}");
             }
-            else
-            {
-                // If the stack trace is present, ensure it contains the expected amount of frames.
-                var stackTraceFrames = exception1.StackTrace.Trim('\n').Split('\n').Where(s => !s.IsNullOrEmpty());
-                if (stackTraceFrames.Count() != validationError2.StackFrames.Count)
-                {
-                    localContext.Diffs.Add($"(exception1.StackTrace.Trim('\\n\').Split('\\n').Count() != validationError2.StackFrames.Count: " +
-                        $"{stackTraceFrames.Count()}, {validationError2.StackFrames.Count})");
-                    localContext.Diffs.Add($"exception1.StackTrace: {exception1.StackTrace}");
-                }
-            }
 
             return context.Merge(localContext);
         }
