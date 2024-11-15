@@ -15,8 +15,10 @@ namespace Microsoft.IdentityModel.Tokens
             MessageDetail messageDetail,
             Type exceptionType,
             StackFrame stackFrame,
-            string? invalidAlgorithm) :
-            base(messageDetail, ValidationFailureType.AlgorithmValidationFailed, exceptionType, stackFrame)
+            string? invalidAlgorithm,
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null) :
+            base(messageDetail, exceptionType, stackFrame, validationFailureType ?? ValidationFailureType.AlgorithmValidationFailed, innerException)
         {
             _invalidAlgorithm = invalidAlgorithm;
         }

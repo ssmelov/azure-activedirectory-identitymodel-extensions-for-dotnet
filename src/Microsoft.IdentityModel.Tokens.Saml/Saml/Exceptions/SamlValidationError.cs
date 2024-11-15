@@ -4,11 +4,18 @@
 using System;
 using System.Diagnostics;
 
+#nullable enable
 namespace Microsoft.IdentityModel.Tokens.Saml
 {
     internal class SamlValidationError : ValidationError
     {
-        internal SamlValidationError(MessageDetail messageDetail, ValidationFailureType failureType, Type exceptionType, StackFrame stackFrame, Exception innerException) : base(messageDetail, failureType, exceptionType, stackFrame, innerException)
+        internal SamlValidationError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            ValidationFailureType failureType,
+            Exception? innerException = null)
+            : base(messageDetail, exceptionType, stackFrame, failureType, innerException)
         {
         }
 
@@ -24,3 +31,4 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         }
     }
 }
+#nullable restore

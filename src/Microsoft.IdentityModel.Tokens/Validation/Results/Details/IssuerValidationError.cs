@@ -13,19 +13,10 @@ namespace Microsoft.IdentityModel.Tokens
             MessageDetail messageDetail,
             Type exceptionType,
             StackFrame stackFrame,
-            string? invalidIssuer)
-            : this(messageDetail, ValidationFailureType.IssuerValidationFailed, exceptionType, stackFrame, invalidIssuer, null)
-        {
-        }
-
-        internal IssuerValidationError(
-            MessageDetail messageDetail,
-            ValidationFailureType validationFailureType,
-            Type exceptionType,
-            StackFrame stackFrame,
             string? invalidIssuer,
-            Exception? innerException)
-            : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null)
+            : base(messageDetail, exceptionType, stackFrame, validationFailureType ?? ValidationFailureType.IssuerValidationFailed, innerException)
         {
             InvalidIssuer = invalidIssuer;
         }
@@ -40,6 +31,7 @@ namespace Microsoft.IdentityModel.Tokens
                 {
                     InvalidIssuer = InvalidIssuer
                 };
+                exception.SetValidationError(this);
 
                 return exception;
             }

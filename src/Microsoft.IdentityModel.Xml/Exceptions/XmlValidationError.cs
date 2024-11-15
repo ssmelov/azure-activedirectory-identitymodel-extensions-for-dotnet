@@ -5,16 +5,18 @@ using System;
 using System.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 
+#nullable enable
 namespace Microsoft.IdentityModel.Xml
 {
     internal class XmlValidationError : ValidationError
     {
         public XmlValidationError(
             MessageDetail messageDetail,
-            ValidationFailureType validationFailureType,
             Type exceptionType,
-            StackFrame stackFrame) :
-            base(messageDetail, validationFailureType, exceptionType, stackFrame)
+            StackFrame stackFrame,
+            ValidationFailureType validationFailureType,
+            Exception? innerException = null) :
+            base(messageDetail, exceptionType, stackFrame, validationFailureType, innerException)
         {
 
         }
@@ -32,3 +34,4 @@ namespace Microsoft.IdentityModel.Xml
         }
     }
 }
+#nullable restore
