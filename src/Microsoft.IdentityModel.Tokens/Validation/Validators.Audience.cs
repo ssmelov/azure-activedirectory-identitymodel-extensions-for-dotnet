@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Microsoft.IdentityModel.Abstractions;
 using Microsoft.IdentityModel.Logging;
 
@@ -48,50 +47,38 @@ namespace Microsoft.IdentityModel.Tokens
         {
             if (validationParameters == null)
             {
-                AudienceValidationError.ValidationParametersNull ??= new StackFrame(true);
-                return new AudienceValidationError(
-                    MessageDetail.NullParameter(nameof(validationParameters)),
-                    ValidationFailureType.NullArgument,
-                    typeof(SecurityTokenArgumentNullException),
-                    AudienceValidationError.ValidationParametersNull,
-                    tokenAudiences,
-                    null);
+                return AudienceValidationError.NullParameter(
+                    nameof(validationParameters),
+                    ValidationError.GetCurrentStackFrame());
             }
 
             if (tokenAudiences == null)
             {
-                AudienceValidationError.AudiencesNull ??= new StackFrame(true);
-                return new AudienceValidationError(
-                    MessageDetail.NullParameter(nameof(tokenAudiences)),
-                    ValidationFailureType.NullArgument,
-                    typeof(SecurityTokenArgumentNullException),
-                    AudienceValidationError.AudiencesNull,
-                    tokenAudiences,
-                    validationParameters.ValidAudiences);
+                return AudienceValidationError.NullParameter(
+                    nameof(tokenAudiences),
+                    ValidationError.GetCurrentStackFrame());
             }
 
             if (tokenAudiences.Count == 0)
             {
-                AudienceValidationError.AudiencesCountZero ??= new StackFrame(true);
                 return new AudienceValidationError(
                     new MessageDetail(LogMessages.IDX10206),
-                    ValidationFailureType.NoTokenAudiencesProvided,
                     typeof(SecurityTokenInvalidAudienceException),
-                    AudienceValidationError.AudiencesCountZero,
+                    ValidationError.GetCurrentStackFrame(),
                     tokenAudiences,
-                    validationParameters.ValidAudiences);
+                    validationParameters.ValidAudiences,
+                    ValidationFailureType.NoTokenAudiencesProvided);
             }
 
             if (validationParameters.ValidAudiences.Count == 0)
             {
-                AudienceValidationError.ValidationParametersAudiencesCountZero ??= new StackFrame(true);
                 return new AudienceValidationError(
                         new MessageDetail(LogMessages.IDX10268),
-                        ValidationFailureType.NoValidationParameterAudiencesProvided,
                         typeof(SecurityTokenInvalidAudienceException),
-                        AudienceValidationError.ValidationParametersAudiencesCountZero,
+                        ValidationError.GetCurrentStackFrame(),
                         tokenAudiences,
-                        validationParameters.ValidAudiences);
+                        validationParameters.ValidAudiences,
+                        ValidationFailureType.NoValidationParameterAudiencesProvided);
             }
 
             string? validAudience = ValidTokenAudience(tokenAudiences, validationParameters.ValidAudiences, validationParameters.IgnoreTrailingSlashWhenValidatingAudience);
@@ -99,15 +86,13 @@ namespace Microsoft.IdentityModel.Tokens
                 return validAudience;
 
             // TODO we shouldn't be serializing here.
-            AudienceValidationError.ValidateAudienceFailed ??= new StackFrame(true);
             return new AudienceValidationError(
                 new MessageDetail(
                     LogMessages.IDX10215,
                     LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(tokenAudiences)),
                     LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(validationParameters.ValidAudiences))),
-                ValidationFailureType.AudienceValidationFailed,
                 typeof(SecurityTokenInvalidAudienceException),
-                AudienceValidationError.ValidateAudienceFailed,
+                ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
                 validationParameters.ValidAudiences);
         }

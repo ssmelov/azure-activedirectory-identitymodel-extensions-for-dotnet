@@ -60,27 +60,27 @@ namespace Microsoft.IdentityModel.Tokens
                         new MessageDetail(
                             LogMessages.IDX10227,
                             securityToken),
-                        ValidationFailureType.TokenReplayValidationFailed,
                         typeof(SecurityTokenNoExpirationException),
-                        new StackFrame(true));
+                        new StackFrame(true),
+                        ValidationFailureType.TokenReplayValidationFailed);
 
                 if (validationParameters.TokenReplayCache.TryFind(securityToken))
                     return new ValidationError(
                         new MessageDetail(
                             LogMessages.IDX10228,
                             securityToken),
-                        ValidationFailureType.TokenReplayValidationFailed,
                         typeof(SecurityTokenReplayDetectedException),
-                        new StackFrame(true));
+                        new StackFrame(true),
+                        ValidationFailureType.TokenReplayValidationFailed);
 
                 if (!validationParameters.TokenReplayCache.TryAdd(securityToken, expirationTime.Value))
                     return new ValidationError(
                         new MessageDetail(
                             LogMessages.IDX10229,
                             securityToken),
-                        ValidationFailureType.TokenReplayValidationFailed,
                         typeof(SecurityTokenReplayAddFailedException),
-                        new StackFrame(true));
+                        new StackFrame(true),
+                        ValidationFailureType.TokenReplayValidationFailed);
             }
 
             // if it reaches here, that means no token replay is detected.
