@@ -75,9 +75,9 @@ namespace Microsoft.IdentityModel.Tokens.IssuerValidation.Tests
                             LogHelper.MarkAsNonPII(validIssuer),
                             LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(null)),
                             LogHelper.MarkAsNonPII(null)),
-                        ValidationFailureType.IssuerValidationFailed,
                         typeof(SecurityTokenInvalidIssuerException),
-                        null),
+                        null,
+                        ValidationFailureType.IssuerValidationFailed),
                     SecurityToken = JsonUtilities.CreateUnsignedJsonWebToken(JwtRegisteredClaimNames.Iss, issClaim),
                     ValidationParameters = new ValidationParameters()
                 });
@@ -90,9 +90,9 @@ namespace Microsoft.IdentityModel.Tokens.IssuerValidation.Tests
                         new MessageDetail(
                             LogMessages.IDX10000,
                             LogHelper.MarkAsNonPII("validationParameters")),
-                        ValidationFailureType.NullArgument,
                         typeof(SecurityTokenArgumentNullException),
-                        null),
+                        null,
+                        ValidationFailureType.NullArgument),
                     SecurityToken = JsonUtilities.CreateUnsignedJsonWebToken(JwtRegisteredClaimNames.Iss, issClaim),
                     ValidationParameters = null
                 });
@@ -105,9 +105,9 @@ namespace Microsoft.IdentityModel.Tokens.IssuerValidation.Tests
                         new MessageDetail(
                             LogMessages.IDX10000,
                             LogHelper.MarkAsNonPII("securityToken")),
-                        ValidationFailureType.NullArgument,
                         typeof(SecurityTokenArgumentNullException),
-                        null),
+                        null,
+                        ValidationFailureType.NullArgument),
                     SecurityToken = null,
                     ValidationParameters = new ValidationParameters()
                 });
@@ -142,9 +142,9 @@ namespace Microsoft.IdentityModel.Tokens.IssuerValidation.Tests
                             LogHelper.MarkAsNonPII(issClaim),
                             LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(validIssuers)),
                             LogHelper.MarkAsNonPII(null)),
-                        ValidationFailureType.IssuerValidationFailed,
                         typeof(SecurityTokenInvalidIssuerException),
-                        null),
+                        null,
+                        ValidationFailureType.IssuerValidationFailed),
                     SecurityToken = JsonUtilities.CreateUnsignedJsonWebToken(JwtRegisteredClaimNames.Iss, issClaim),
                     ValidationParameters = new ValidationParameters(),
                     ValidIssuerToAdd = validIssuer

@@ -64,9 +64,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                             TokenLogMessages.IDX10209,
                             LogHelper.MarkAsNonPII(token.Length),
                             LogHelper.MarkAsNonPII(MaximumTokenSizeInBytes)),
-                        ValidationFailureType.InvalidSecurityToken,
                         typeof(ArgumentException),
-                        invalidTokenLengthStackFrame);
+                        invalidTokenLengthStackFrame,
+                        ValidationFailureType.InvalidSecurityToken);
             }
 
             ValidationResult<SecurityToken> readResult = ReadToken(token, callContext);
@@ -118,9 +118,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                 StackFrame notJwtStackFrame = StackFrames.TokenNotJWT ??= new StackFrame(true);
                 return new ValidationError(
                     new MessageDetail(TokenLogMessages.IDX10001, nameof(token), nameof(JsonWebToken)),
-                    ValidationFailureType.InvalidSecurityToken,
                     typeof(ArgumentException),
-                    notJwtStackFrame);
+                    notJwtStackFrame,
+                    ValidationFailureType.InvalidSecurityToken);
             }
 
             BaseConfiguration? currentConfiguration =
@@ -294,10 +294,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             {
                 return new IssuerValidationError(
                     new MessageDetail(TokenLogMessages.IDX10269),
-                    ValidationFailureType.IssuerValidatorThrew,
                     typeof(SecurityTokenInvalidIssuerException),
                     ValidationError.GetCurrentStackFrame(),
                     jsonWebToken.Issuer,
+                    ValidationFailureType.IssuerValidatorThrew,
                     ex);
             }
 

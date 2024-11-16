@@ -84,9 +84,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10000,
                                 LogHelper.MarkAsNonPII("securityToken")),
-                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null)
+                            null,
+                            ValidationFailureType.NullArgument)
                     },
                     new TokenTypeTheoryData
                     {
@@ -99,9 +99,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10000,
                                 LogHelper.MarkAsNonPII("validationParameters")),
-                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null)
+                            null,
+                            ValidationFailureType.NullArgument)
                     },
                     new TokenTypeTheoryData
                     {
@@ -115,9 +115,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10256,
                                 LogHelper.MarkAsNonPII("type")),
-                            ValidationFailureType.TokenTypeValidationFailed,
                             typeof(SecurityTokenInvalidTypeException),
-                            null)
+                            null,
+                            ValidationFailureType.TokenTypeValidationFailed)
                     },
                     new TokenTypeTheoryData
                     {
@@ -131,9 +131,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10256,
                                 LogHelper.MarkAsNonPII("type")),
-                            ValidationFailureType.TokenTypeValidationFailed,
                             typeof(SecurityTokenInvalidTypeException),
-                            null)
+                            null,
+                            ValidationFailureType.TokenTypeValidationFailed)
                     },
                     new TokenTypeTheoryData
                     {
@@ -148,9 +148,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                                 LogMessages.IDX10257,
                                 LogHelper.MarkAsNonPII("type"),
                                 LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(validTypesNoJwt))),
-                            ValidationFailureType.TokenTypeValidationFailed,
                             typeof(SecurityTokenInvalidTypeException),
-                            null)
+                            null,
+                            ValidationFailureType.TokenTypeValidationFailed)
                     }
                 };
             }

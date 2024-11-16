@@ -148,9 +148,9 @@ namespace Microsoft.IdentityModel.Xml
                     new MessageDetail(
                         LogMessages.IDX30201,
                         Uri ?? Id),
-                    ValidationFailureType.XmlValidationFailed,
                     typeof(XmlValidationException),
-                    new System.Diagnostics.StackFrame());
+                    new System.Diagnostics.StackFrame(),
+                    ValidationFailureType.XmlValidationFailed);
 
             return null;
         }

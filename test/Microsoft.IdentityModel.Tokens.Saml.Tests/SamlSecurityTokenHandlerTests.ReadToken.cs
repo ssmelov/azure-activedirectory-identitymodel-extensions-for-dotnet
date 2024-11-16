@@ -63,9 +63,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Tests
                         new MessageDetail(
                             TokenLogMessages.IDX10000,
                             LogHelper.MarkAsNonPII("token")),
-                        ValidationFailureType.NullArgument,
                         typeof(SecurityTokenArgumentNullException),
-                        null)
+                        null,
+                        ValidationFailureType.NullArgument)
                 });
 
                 theoryData.Add(new TokenReadingTheoryData("Invalid_EmptyToken")
@@ -76,9 +76,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Tests
                         new MessageDetail(
                             TokenLogMessages.IDX10000,
                             LogHelper.MarkAsNonPII("token")),
-                        ValidationFailureType.NullArgument,
                         typeof(SecurityTokenArgumentNullException),
-                        null)
+                        null,
+                        ValidationFailureType.NullArgument)
                 });
 
                 theoryData.Add(new TokenReadingTheoryData("Invalid_MalformedToken")
@@ -87,9 +87,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Tests
                     ExpectedException = ExpectedException.SamlSecurityTokenReadException("IDX11402:", inner: typeof(SamlSecurityTokenReadException)),
                     Result = new ValidationError(
                         new MessageDetail(LogMessages.IDX11402, "exception message"),
-                        ValidationFailureType.TokenReadingFailed,
                         typeof(SamlSecurityTokenReadException),
-                        null),
+                        null,
+                        ValidationFailureType.TokenReadingFailed),
                 });
 
                 return theoryData;

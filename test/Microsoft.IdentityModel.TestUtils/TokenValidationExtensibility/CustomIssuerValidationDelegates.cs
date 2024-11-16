@@ -52,10 +52,10 @@ namespace Microsoft.IdentityModel.TestUtils
             return await Task.FromResult(new ValidationResult<ValidatedIssuer>(
                 new CustomIssuerValidationError(
                     new MessageDetail(nameof(CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync), null),
-                    CustomIssuerValidationError.CustomIssuerValidationFailureType,
                     typeof(CustomSecurityTokenInvalidIssuerException),
                     ValidationError.GetCurrentStackFrame(),
                     issuer,
+                    CustomIssuerValidationError.CustomIssuerValidationFailureType,
                     null)));
         }
 

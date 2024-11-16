@@ -371,26 +371,26 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         keysAttempted.ToString(),
                         exceptionStrings?.ToString() ?? string.Empty,
                         LogHelper.MarkAsSecurityArtifact(decryptionParameters.EncodedToken, SafeLogJwtToken)),
-                    ValidationFailureType.TokenDecryptionFailed,
                     typeof(SecurityTokenDecryptionFailedException),
-                    new StackFrame(true));
+                    new StackFrame(true),
+                    ValidationFailureType.TokenDecryptionFailed);
             else if (algorithmNotSupportedByCryptoProvider)
                 return new ValidationError(
                     new MessageDetail(
                         TokenLogMessages.IDX10619,
                         LogHelper.MarkAsNonPII(decryptionParameters.Alg),
                         LogHelper.MarkAsNonPII(decryptionParameters.Enc)),
-                    ValidationFailureType.TokenDecryptionFailed,
                     typeof(SecurityTokenDecryptionFailedException),
-                    new StackFrame(true));
+                    new StackFrame(true),
+                    ValidationFailureType.TokenDecryptionFailed);
             else
                 return new ValidationError(
                     new MessageDetail(
                         TokenLogMessages.IDX10609,
                         LogHelper.MarkAsSecurityArtifact(decryptionParameters.EncodedToken, SafeLogJwtToken)),
-                    ValidationFailureType.TokenDecryptionFailed,
                     typeof(SecurityTokenDecryptionFailedException),
-                    new StackFrame(true));
+                    new StackFrame(true),
+                    ValidationFailureType.TokenDecryptionFailed);
         }
 
         private static byte[] DecryptToken(CryptoProviderFactory cryptoProviderFactory, SecurityKey key, string encAlg, byte[] ciphertext, byte[] headerAscii, byte[] initializationVector, byte[] authenticationTag)

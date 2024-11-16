@@ -133,9 +133,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                         ExpectedException = ExpectedException.SecurityTokenException("IDX10612:"),
                         Result = new ValidationError(
                             new MessageDetail(TokenLogMessages.IDX10612),
-                            ValidationFailureType.TokenDecryptionFailed,
                             typeof(SecurityTokenException),
-                            null),
+                            null,
+                            ValidationFailureType.TokenDecryptionFailed),
                     },
                     new TokenDecryptingTheoryData
                     {
@@ -145,9 +145,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                         ExpectedException = ExpectedException.SecurityTokenArgumentNullException("IDX10000:"),
                         Result = new ValidationError(
                             new MessageDetail(TokenLogMessages.IDX10000, "jwtToken"),
-                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null),
+                            null,
+                            ValidationFailureType.NullArgument),
                     },
                     new TokenDecryptingTheoryData
                     {
@@ -157,9 +157,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                         ExpectedException = ExpectedException.SecurityTokenArgumentNullException("IDX10000:"),
                         Result = new ValidationError(
                             new MessageDetail(TokenLogMessages.IDX10000, "validationParameters"),
-                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null),
+                            null,
+                            ValidationFailureType.NullArgument),
                     },
                     new TokenDecryptingTheoryData
                     {
@@ -213,9 +213,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                                 LogHelper.MarkAsSecurityArtifact(
                                     new JsonWebToken(ReferenceTokens.JWEDirectEncryptionUnsignedInnerJWTWithAdditionalHeaderClaims),
                                     JwtTokenUtilities.SafeLogJwtToken)),
-                            ValidationFailureType.TokenDecryptionFailed,
                             typeof(SecurityTokenDecryptionFailedException),
-                            null),
+                            null,
+                            ValidationFailureType.TokenDecryptionFailed),
                     },
                     new TokenDecryptingTheoryData
                     {
@@ -250,9 +250,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                                 LogHelper.MarkAsSecurityArtifact(
                                     new JsonWebToken(ReferenceTokens.JWEDirectEncryptionUnsignedInnerJWTWithAdditionalHeaderClaims),
                                     JwtTokenUtilities.SafeLogJwtToken)),
-                            ValidationFailureType.TokenDecryptionFailed,
                             typeof(SecurityTokenDecryptionFailedException),
-                            null),
+                            null,
+                            ValidationFailureType.TokenDecryptionFailed),
                    },
                 };
             }

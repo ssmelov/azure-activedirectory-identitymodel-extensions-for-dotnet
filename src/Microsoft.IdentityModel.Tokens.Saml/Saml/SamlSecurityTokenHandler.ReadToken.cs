@@ -30,9 +30,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                             TokenLogMessages.IDX10209,
                             LogHelper.MarkAsNonPII(token.Length),
                             LogHelper.MarkAsNonPII(MaximumTokenSizeInBytes)),
-                        ValidationFailureType.TokenExceedsMaximumSize,
                         typeof(ArgumentOutOfRangeException),
-                        ValidationError.GetCurrentStackFrame());
+                        ValidationError.GetCurrentStackFrame(),
+                        ValidationFailureType.TokenExceedsMaximumSize);
 
             try
             {
@@ -47,9 +47,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             {
                 return new SamlValidationError(
                     new MessageDetail(LogMessages.IDX11402, ex.Message),
-                    ValidationFailureType.TokenReadingFailed,
                     typeof(SamlSecurityTokenReadException),
                     ValidationError.GetCurrentStackFrame(),
+                    ValidationFailureType.TokenReadingFailed,
                     ex);
             }
         }

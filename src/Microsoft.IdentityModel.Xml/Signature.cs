@@ -142,24 +142,24 @@ namespace Microsoft.IdentityModel.Xml
             if (SignedInfo is null)
                 return new XmlValidationError(
                     new MessageDetail(LogMessages.IDX30212),
-                    ValidationFailureType.XmlValidationFailed,
                     typeof(XmlValidationException),
-                    ValidationError.GetCurrentStackFrame());
+                    ValidationError.GetCurrentStackFrame(),
+                    ValidationFailureType.XmlValidationFailed);
 
             if (!cryptoProviderFactory.IsSupportedAlgorithm(SignedInfo.SignatureMethod, key))
                 return new XmlValidationError(
                     new MessageDetail(LogMessages.IDX30207, SignedInfo.SignatureMethod, cryptoProviderFactory.GetType()),
-                    ValidationFailureType.XmlValidationFailed,
                     typeof(XmlValidationException),
-                    ValidationError.GetCurrentStackFrame());
+                    ValidationError.GetCurrentStackFrame(),
+                    ValidationFailureType.XmlValidationFailed);
 
             var signatureProvider = cryptoProviderFactory.CreateForVerifying(key, SignedInfo.SignatureMethod);
             if (signatureProvider is null)
                 return new XmlValidationError(
                     new MessageDetail(LogMessages.IDX30203, cryptoProviderFactory, key, SignedInfo.SignatureMethod),
-                    ValidationFailureType.XmlValidationFailed,
                     typeof(XmlValidationException),
-                    ValidationError.GetCurrentStackFrame());
+                    ValidationError.GetCurrentStackFrame(),
+                    ValidationFailureType.XmlValidationFailed);
 
             ValidationError? validationError = null;
 
@@ -172,9 +172,9 @@ namespace Microsoft.IdentityModel.Xml
                     {
                         validationError = new XmlValidationError(
                             new MessageDetail(LogMessages.IDX30200, cryptoProviderFactory, key),
-                            ValidationFailureType.XmlValidationFailed,
                             typeof(XmlValidationException),
-                            ValidationError.GetCurrentStackFrame());
+                            ValidationError.GetCurrentStackFrame(),
+                            ValidationFailureType.XmlValidationFailed);
                     }
                 }
 
