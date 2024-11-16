@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 #nullable enable
 namespace Microsoft.IdentityModel.TestUtils
 {
-    internal class CustomIssuerValidatorDelegates
+    internal class CustomIssuerValidationDelegates
     {
         internal async static Task<ValidationResult<ValidatedIssuer>> CustomIssuerValidatorDelegateAsync(
             string issuer,
@@ -111,7 +111,7 @@ namespace Microsoft.IdentityModel.TestUtils
             CallContext callContext,
             CancellationToken cancellationToken)
         {
-            throw new CustomSecurityTokenInvalidIssuerException(nameof(IssuerValidatorThrows));
+            throw new CustomSecurityTokenInvalidIssuerException(nameof(IssuerValidatorThrows), null);
         }
 
         internal async static Task<ValidationResult<ValidatedIssuer>> IssuerValidatorCustomIssuerExceptionTypeDelegateAsync(
