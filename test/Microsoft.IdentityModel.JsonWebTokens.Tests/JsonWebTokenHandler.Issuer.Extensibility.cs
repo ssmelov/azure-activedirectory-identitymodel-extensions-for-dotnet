@@ -70,7 +70,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.CustomIssuerValidatorDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 88),
+                        new StackFrame("CustomIssuerValidationDelegates", 88),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -82,7 +82,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorDelegateAsync), null),
                         typeof(SecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 88),
+                        new StackFrame("CustomIssuerValidationDelegates", 88),
                         issuerGuid)
                 });
 
@@ -92,7 +92,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 107),
+                        new StackFrame("CustomIssuerValidationDelegates", 107),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -104,7 +104,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync), null),
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 107),
+                        new StackFrame("CustomIssuerValidationDelegates", 107),
                         issuerGuid),
                 });
 
@@ -114,7 +114,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.CustomIssuerValidatorUnknownExceptionDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 139),
+                        new StackFrame("CustomIssuerValidationDelegates", 139),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -126,7 +126,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorUnknownExceptionDelegateAsync), null),
                         typeof(NotSupportedException),
-                        new StackFrame("CustomValidationDelegates.cs", 139),
+                        new StackFrame("CustomIssuerValidationDelegates", 139),
                         issuerGuid),
                 });
 
@@ -136,7 +136,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 123),
+                        new StackFrame("CustomIssuerValidationDelegates", 123),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -148,7 +148,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync), null),
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 123),
+                        new StackFrame("CustomIssuerValidationDelegates", 123),
                         issuerGuid,
                         CustomIssuerValidationError.CustomIssuerValidationFailureType,
                         null),
@@ -163,7 +163,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.IssuerValidatorDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 169),
+                        new StackFrame("CustomIssuerValidationDelegates", 169),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -175,7 +175,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.IssuerValidatorDelegateAsync), null),
                         typeof(SecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 169),
+                        new StackFrame("CustomIssuerValidationDelegates", 169),
                         issuerGuid)
                 });
 
@@ -185,7 +185,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.IssuerValidatorCustomIssuerExceptionTypeDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 196),
+                        new StackFrame("CustomIssuerValidationDelegates", 196),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -197,7 +197,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.IssuerValidatorCustomIssuerExceptionTypeDelegateAsync), null),
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 196),
+                        new StackFrame("CustomIssuerValidationDelegates", 196),
                         issuerGuid)
                 });
 
@@ -207,7 +207,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     issuerGuid,
                     CustomIssuerValidationDelegates.IssuerValidatorCustomExceptionTypeDelegateAsync,
                     [
-                        new StackFrame("CustomValidationDelegates.cs", 210),
+                        new StackFrame("CustomIssuerValidationDelegates", 210),
                         new StackFrame(false),
                         new StackFrame(false)
                     ])
@@ -219,7 +219,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         new MessageDetail(
                             nameof(CustomIssuerValidationDelegates.IssuerValidatorCustomExceptionTypeDelegateAsync), null),
                         typeof(CustomSecurityTokenException),
-                        new StackFrame("CustomValidationDelegates.cs", 210),
+                        new StackFrame("CustomIssuerValidationDelegates", 210),
                         issuerGuid)
                 });
 
