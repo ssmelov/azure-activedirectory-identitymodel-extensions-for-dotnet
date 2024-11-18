@@ -66,6 +66,8 @@ namespace Microsoft.IdentityModel.Tokens
                     exception = new SecurityTokenInvalidIssuerException(MessageDetail.Message);
                 else if (exceptionType == typeof(SecurityTokenInvalidLifetimeException))
                     exception = new SecurityTokenInvalidLifetimeException(MessageDetail.Message);
+                else if (exceptionType == typeof(SecurityTokenInvalidOperationException))
+                    exception = new SecurityTokenInvalidOperationException(MessageDetail.Message);
                 else if (exceptionType == typeof(SecurityTokenReplayDetectedException))
                     exception = new SecurityTokenReplayDetectedException(MessageDetail.Message);
                 else if (exceptionType == typeof(SecurityTokenReplayAddFailedException))
@@ -123,6 +125,8 @@ namespace Microsoft.IdentityModel.Tokens
                     exception = new SecurityTokenInvalidIssuerException(MessageDetail.Message, innerException);
                 else if (exceptionType == typeof(SecurityTokenInvalidLifetimeException))
                     exception = new SecurityTokenInvalidLifetimeException(MessageDetail.Message, innerException);
+                else if (exceptionType == typeof(SecurityTokenInvalidOperationException))
+                    exception = new SecurityTokenInvalidOperationException(MessageDetail.Message, innerException);
                 else if (exceptionType == typeof(SecurityTokenReplayDetectedException))
                     exception = new SecurityTokenReplayDetectedException(MessageDetail.Message, innerException);
                 else if (exceptionType == typeof(SecurityTokenReplayAddFailedException))
@@ -183,8 +187,7 @@ namespace Microsoft.IdentityModel.Tokens
             MessageDetail.NullParameter(parameterName),
             typeof(SecurityTokenArgumentNullException),
             stackFrame,
-            ValidationFailureType.NullArgument,
-            null);
+            ValidationFailureType.NullArgument);
 
         /// <summary>
         /// Gets the type of validation failure that occurred.
