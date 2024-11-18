@@ -134,5 +134,15 @@ namespace Microsoft.IdentityModel.Tokens
         /// </summary>
         public static readonly ValidationFailureType IssuerValidatorThrew = new IssuerValidatorFailure("IssuerValidatorThrew");
         private class IssuerValidatorFailure : ValidationFailureType { internal IssuerValidatorFailure(string name) : base(name) { } }
+
+        /// <summary>
+        /// Defines a type that represents that the signature validation delegate threw and exception.
+        /// </summary>
+        public static readonly ValidationFailureType SignatureValidatorThrew = new SignatureValidationFailure("SignatureValidatorThrew");
+
+        /// <summary>
+        /// Defines a type that represents that the algorithm validation delegate threw and exception.
+        /// </summary>
+        public static readonly ValidationFailureType AlgorithmValidatorThrew = new AlgorithmValidationFailure("AlgorithmValidatorThrew");
     }
 }
