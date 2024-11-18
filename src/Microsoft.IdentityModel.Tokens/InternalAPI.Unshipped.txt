@@ -8,7 +8,6 @@ const Microsoft.IdentityModel.Tokens.LogMessages.IDX10275 = "IDX10275: TokenType
 Microsoft.IdentityModel.Tokens.AlgorithmValidationError
 Microsoft.IdentityModel.Tokens.AlgorithmValidationError.AlgorithmValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, string invalidAlgorithm, System.Exception innerException = null) -> void
 Microsoft.IdentityModel.Tokens.AlgorithmValidationError.InvalidAlgorithm.get -> string
-Microsoft.IdentityModel.Tokens.AlgorithmValidationError._invalidAlgorithm -> string
 Microsoft.IdentityModel.Tokens.AudienceValidationError.AudienceValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, System.Collections.Generic.IList<string> tokenAudiences, System.Collections.Generic.IList<string> validAudiences, System.Exception innerException = null) -> void
 Microsoft.IdentityModel.Tokens.AudienceValidationError.TokenAudiences.get -> System.Collections.Generic.IList<string>
 Microsoft.IdentityModel.Tokens.AudienceValidationError.TokenAudiences.set -> void
