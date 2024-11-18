@@ -126,7 +126,7 @@ namespace Microsoft.IdentityModel.Xml
         }
 
 #nullable enable
-        internal ValidationError? Verify(
+        internal SignatureValidationError? Verify(
             SecurityKey key,
             CryptoProviderFactory cryptoProviderFactory,
 #pragma warning disable CA1801 // Review unused parameters
@@ -134,34 +134,38 @@ namespace Microsoft.IdentityModel.Xml
 #pragma warning restore CA1801
         {
             if (key is null)
-                return ValidationError.NullParameter(nameof(key), ValidationError.GetCurrentStackFrame());
+                return SignatureValidationError.NullParameter(
+                    nameof(key),
+                    ValidationError.GetCurrentStackFrame());
 
             if (cryptoProviderFactory is null)
-                return ValidationError.NullParameter(nameof(cryptoProviderFactory), ValidationError.GetCurrentStackFrame());
+                return SignatureValidationError.NullParameter(
+                    nameof(cryptoProviderFactory),
+                    ValidationError.GetCurrentStackFrame());
 
             if (SignedInfo is null)
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(LogMessages.IDX30212),
-                    typeof(XmlValidationException),
+                    typeof(SecurityTokenInvalidSignatureException),
                     ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.XmlValidationFailed);
+                    validationFailureType: ValidationFailureType.SignatureValidationFailed);
 
             if (!cryptoProviderFactory.IsSupportedAlgorithm(SignedInfo.SignatureMethod, key))
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(LogMessages.IDX30207, SignedInfo.SignatureMethod, cryptoProviderFactory.GetType()),
-                    typeof(XmlValidationException),
+                    typeof(SecurityTokenInvalidSignatureException),
                     ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.XmlValidationFailed);
+                    validationFailureType: ValidationFailureType.XmlValidationFailed);
 
             var signatureProvider = cryptoProviderFactory.CreateForVerifying(key, SignedInfo.SignatureMethod);
             if (signatureProvider is null)
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(LogMessages.IDX30203, cryptoProviderFactory, key, SignedInfo.SignatureMethod),
-                    typeof(XmlValidationException),
+                    typeof(SecurityTokenInvalidSignatureException),
                     ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.XmlValidationFailed);
+                    validationFailureType: ValidationFailureType.XmlValidationFailed);
 
-            ValidationError? validationError = null;
+            SignatureValidationError? validationError = null;
 
             try
             {
@@ -170,11 +174,11 @@ namespace Microsoft.IdentityModel.Xml
                     SignedInfo.GetCanonicalBytes(memoryStream);
                     if (!signatureProvider.Verify(memoryStream.ToArray(), Convert.FromBase64String(SignatureValue)))
                     {
-                        validationError = new XmlValidationError(
+                        validationError = new SignatureValidationError(
                             new MessageDetail(LogMessages.IDX30200, cryptoProviderFactory, key),
-                            typeof(XmlValidationException),
+                            typeof(SecurityTokenInvalidSignatureException),
                             ValidationError.GetCurrentStackFrame(),
-                            ValidationFailureType.XmlValidationFailed);
+                            validationFailureType: ValidationFailureType.XmlValidationFailed);
                     }
                 }
 
