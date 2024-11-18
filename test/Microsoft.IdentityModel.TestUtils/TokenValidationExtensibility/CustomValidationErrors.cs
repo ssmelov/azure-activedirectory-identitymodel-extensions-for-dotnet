@@ -157,6 +157,98 @@ namespace Microsoft.IdentityModel.TestUtils
     }
     #endregion
 
+    #region SignatureValidationErrors
+    internal class CustomSignatureValidationError : SignatureValidationError
+    {
+        /// <summary>
+        /// A custom validation failure type.
+        /// </summary>
+        public static readonly ValidationFailureType CustomSignatureValidationFailureType = new SignatureValidatorFailure("CustomSignatureValidationFailureType");
+        private class SignatureValidatorFailure : ValidationFailureType { internal SignatureValidatorFailure(string name) : base(name) { } }
+
+        public CustomSignatureValidationError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            ValidationError? innerValidationError = null,
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null) :
+            base(messageDetail, exceptionType, stackFrame, innerValidationError, validationFailureType, innerException)
+        {
+        }
+        internal override Exception GetException()
+        {
+            if (ExceptionType == typeof(CustomSecurityTokenInvalidSignatureException))
+            {
+                var exception = new CustomSecurityTokenInvalidSignatureException(MessageDetail.Message, InnerException);
+                exception.SetValidationError(this);
+                return exception;
+            }
+            return base.GetException();
+        }
+    }
+
+    internal class CustomSignatureWithoutGetExceptionValidationOverrideError : SignatureValidationError
+    {
+        public CustomSignatureWithoutGetExceptionValidationOverrideError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            ValidationError? innerValidationError = null,
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null) :
+            base(messageDetail, exceptionType, stackFrame, innerValidationError, validationFailureType, innerException)
+        {
+        }
+    }
+    #endregion // SignatureValidationErrors
+
+    #region AlgorithmValidationErrors
+    internal class CustomAlgorithmValidationError : AlgorithmValidationError
+    {
+        /// <summary>
+        /// A custom validation failure type.
+        /// </summary>
+        public static readonly ValidationFailureType CustomAlgorithmValidationFailureType = new AlgorithmValidatorFailure("CustomAlgorithmValidationFailureType");
+        private class AlgorithmValidatorFailure : ValidationFailureType { internal AlgorithmValidatorFailure(string name) : base(name) { } }
+
+        public CustomAlgorithmValidationError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            string? algorithm,
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null)
+            : base(messageDetail, exceptionType, stackFrame, algorithm, validationFailureType, innerException)
+        {
+        }
+        internal override Exception GetException()
+        {
+            if (ExceptionType == typeof(CustomSecurityTokenInvalidAlgorithmException))
+            {
+                var exception = new CustomSecurityTokenInvalidAlgorithmException(MessageDetail.Message, InnerException) { InvalidAlgorithm = InvalidAlgorithm };
+                exception.SetValidationError(this);
+                return exception;
+            }
+            return base.GetException();
+        }
+    }
+
+    internal class CustomAlgorithmWithoutGetExceptionValidationOverrideError : AlgorithmValidationError
+    {
+        public CustomAlgorithmWithoutGetExceptionValidationOverrideError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            string? invalidAlgorithm,
+            ValidationFailureType? validationFailureType = null,
+            Exception? innerException = null) :
+            base(messageDetail, exceptionType, stackFrame, invalidAlgorithm, validationFailureType, innerException)
+        {
+        }
+    }
+    #endregion // AlgorithmValidationErrors
+
     // Other custom validation errors to be added here for signature validation, issuer signing key, etc.
 }
 #nullable restore
