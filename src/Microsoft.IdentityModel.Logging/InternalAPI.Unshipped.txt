@@ -1,0 +1,29 @@
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetry.MeterName = "MicrosoftIdentityModel_Meter" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetry.ServiceName = "MicrosoftIdentityModel" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetry.TotalDurationHistogramName = "IdentityModelConfigurationRequestTotalDurationInMS" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetry.WilsonConfigurationManagerCounterDescription = "Counter capturing configuration manager operations." -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetry.WilsonConfigurationManagerCounterName = "WilsonConfigurationManagerCounter" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.ConfigurationInvalid = "ConfigurationInvalid" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.ConfigurationRetrievalFailed = "ConfigurationRetrievalFailed" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.ExceptionTypeTag = "ExceptionType" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.Failure = "Failure" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.LKG = "LastKnownGood" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.MetadataAddressTag = "MetadataAddress" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.OperationStatusTag = "OperationStatus" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.RefreshReasonTag = "RefreshReason" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.Requested = "Requested" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.Scheduled = "Scheduled" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.Success = "Success" -> string
+const Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.WilsonVersionTag = "WilsonVersion" -> string
+Microsoft.IdentityModel.Logging.IdentityModelTelemetry
+Microsoft.IdentityModel.Logging.IdentityModelTelemetry.IdentityModelTelemetry() -> void
+Microsoft.IdentityModel.Logging.WatchUtility
+Microsoft.IdentityModel.Logging.WatchUtility.WatchUtility() -> void
+static Microsoft.IdentityModel.Logging.IdentityModelTelemetry.IncrementConfigurationManagerCounter(in System.Diagnostics.TagList tagList) -> void
+static Microsoft.IdentityModel.Logging.IdentityModelTelemetry.RecordTotalDurationHistogram(long requestDurationInMs, in System.Diagnostics.TagList tagList) -> void
+static Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.IncrementConfigurationManagerCounter(string metadataAddress, string refreshReason, string operationStatus, string exceptionType) -> void
+static Microsoft.IdentityModel.Logging.IdentityModelTelemetryUtil.RecordTotalDuration(long durationInMs, string metadataAddress, string refreshReason, string operationStatus, string exceptionType) -> void
+static readonly Microsoft.IdentityModel.Logging.IdentityModelTelemetry.ConfigurationManagerCounter -> System.Diagnostics.Metrics.Counter<long>
+static readonly Microsoft.IdentityModel.Logging.IdentityModelTelemetry.TotalDurationHistogram -> System.Diagnostics.Metrics.Histogram<long>
+static readonly Microsoft.IdentityModel.Logging.IdentityModelTelemetry.WilsonMeter -> System.Diagnostics.Metrics.Meter
+static readonly Microsoft.IdentityModel.Logging.WatchUtility.Watch -> System.Diagnostics.Stopwatch
