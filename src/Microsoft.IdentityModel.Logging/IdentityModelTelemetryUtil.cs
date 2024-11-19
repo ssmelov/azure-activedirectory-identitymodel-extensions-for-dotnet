@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace Microsoft.IdentityModel.Logging
 {
@@ -22,6 +23,27 @@ namespace Microsoft.IdentityModel.Logging
             [skuTelemetry] = ClientSku,
             [versionTelemetry] = ClientVer
         };
+
+        // Static attribute tags
+        internal const string WilsonVersionTag = "WilsonVersion";
+        internal const string MetadataAddressTag = "MetadataAddress";
+        internal const string RefreshReasonTag = "RefreshReason";
+        internal const string OperationStatusTag = "OperationStatus";
+        internal const string ExceptionTypeTag = "ExceptionType";
+
+        // Validation result values
+        internal const string Success = "Success";
+        internal const string Failure = "Failure";
+
+        // Configuration manager refresh reasons
+        internal const string Requested = "Requested";
+        internal const string Scheduled = "Scheduled";
+        internal const string LKG = "LastKnownGood";
+
+        // Configuration manager exception types
+        internal const string ConfigurationInvalid = "ConfigurationInvalid";
+        internal const string ConfigurationRetrievalFailed = "ConfigurationRetrievalFailed";
+
 
         /// <summary>
         /// Get the string that represents the client SKU.
@@ -134,6 +156,41 @@ namespace Microsoft.IdentityModel.Logging
 
             telemetryData[key] = value;
             return true;
+        }
+
+        internal static void IncrementConfigurationManagerCounter(
+            string metadataAddress,
+            string refreshReason,
+            string operationStatus,
+            string exceptionType)
+        {
+            var tagList = new TagList()
+            {
+                { WilsonVersionTag, ClientVer },
+                { MetadataAddressTag, metadataAddress },
+                { RefreshReasonTag, refreshReason},
+                { OperationStatusTag, operationStatus },
+                { ExceptionTypeTag, exceptionType }
+            };
+        }
+
+        internal static void RecordTotalDuration(
+            long durationInMs,
+            string metadataAddress,
+            string refreshReason,
+            string operationStatus,
+            string exceptionType)
+        {
+            var tagList = new TagList()
+            {
+                { WilsonVersionTag, ClientVer },
+                { MetadataAddressTag, metadataAddress },
+                { RefreshReasonTag, refreshReason},
+                { OperationStatusTag, operationStatus },
+                { ExceptionTypeTag, exceptionType }
+            };
+
+            IdentityModelTelemetry.RecordTotalDurationHistogram(durationInMs, tagList);
         }
     }
 }

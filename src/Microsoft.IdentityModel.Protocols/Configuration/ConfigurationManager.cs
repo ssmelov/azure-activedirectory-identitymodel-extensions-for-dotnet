@@ -147,8 +147,14 @@ namespace Microsoft.IdentityModel.Protocols
         /// <remarks>If the time since the last call is less than <see cref="BaseConfigurationManager.AutomaticRefreshInterval"/> then <see cref="IConfigurationRetriever{T}.GetConfigurationAsync"/> is not called and the current Configuration is returned.</remarks>
         public virtual async Task<T> GetConfigurationAsync(CancellationToken cancel)
         {
+            var methodStartTicks = WatchUtility.Watch.Elapsed.Ticks;
+
             if (_currentConfiguration != null && _syncAfter > DateTimeOffset.UtcNow)
+            {
+                TrackGetConfiguration(
+                    methodStartTicks, IdentityModelTelemetryUtil.LKG, IdentityModelTelemetryUtil.Success, string.Empty);
                 return _currentConfiguration;
+            }
 
             Exception fetchMetadataFailure = null;
 
@@ -164,6 +170,8 @@ namespace Microsoft.IdentityModel.Protocols
                 await _configurationNullLock.WaitAsync(cancel).ConfigureAwait(false);
                 if (_currentConfiguration != null)
                 {
+                    TrackGetConfiguration(
+                        methodStartTicks, IdentityModelTelemetryUtil.LKG, IdentityModelTelemetryUtil.Success, string.Empty);
                     _configurationNullLock.Release();
                     return _currentConfiguration;
                 }
@@ -183,11 +191,15 @@ namespace Microsoft.IdentityModel.Protocols
                         ConfigurationValidationResult result = _configValidator.Validate(configuration);
                         // in this case we have never had a valid configuration, so we will throw an exception if the validation fails
                         if (!result.Succeeded)
+                        {
+                            TrackGetConfiguration(
+                                methodStartTicks, IdentityModelTelemetryUtil.Requested, IdentityModelTelemetryUtil.Failure, IdentityModelTelemetryUtil.ConfigurationInvalid);
                             throw LogHelper.LogExceptionMessage(
                                 new InvalidConfigurationException(
                                     LogHelper.FormatInvariant(
                                         LogMessages.IDX20810,
                                         result.ErrorMessage)));
+                        }
                     }
 
                     UpdateConfiguration(configuration);
@@ -220,8 +232,14 @@ namespace Microsoft.IdentityModel.Protocols
 
             // If metadata exists return it.
             if (_currentConfiguration != null)
+            {
+                TrackGetConfiguration(
+                    methodStartTicks, IdentityModelTelemetryUtil.Requested, IdentityModelTelemetryUtil.Success, string.Empty);
                 return _currentConfiguration;
+            }
 
+            TrackGetConfiguration(
+                methodStartTicks, IdentityModelTelemetryUtil.Requested, IdentityModelTelemetryUtil.Failure, IdentityModelTelemetryUtil.ConfigurationRetrievalFailed);
             throw LogHelper.LogExceptionMessage(
                 new InvalidOperationException(
                     LogHelper.FormatInvariant(
@@ -293,7 +311,7 @@ namespace Microsoft.IdentityModel.Protocols
         /// Obtains an updated version of Configuration.
         /// </summary>
         /// <param name="cancel">CancellationToken</param>
-        /// <returns>Configuration of type BaseConfiguration    .</returns>
+        /// <returns>Configuration of type BaseConfiguration.</returns>
         /// <remarks>If the time since the last call is less than <see cref="BaseConfigurationManager.AutomaticRefreshInterval"/> then <see cref="IConfigurationRetriever{T}.GetConfigurationAsync"/> is not called and the current Configuration is returned.</remarks>
         public override async Task<BaseConfiguration> GetBaseConfigurationAsync(CancellationToken cancel)
         {
@@ -320,6 +338,19 @@ namespace Microsoft.IdentityModel.Protocols
                     _lastRequestRefresh = now;
                 }
             }
+        }
+
+        internal void TrackGetConfiguration(long methodStartTicks, string refreshReason, string operationStatus, string exceptionType)
+        {
+            IdentityModelTelemetryUtil.IncrementConfigurationManagerCounter(
+                    MetadataAddress, refreshReason, operationStatus, exceptionType);
+
+            IdentityModelTelemetryUtil.RecordTotalDuration(
+                (WatchUtility.Watch.Elapsed.Ticks - methodStartTicks) / TimeSpan.TicksPerMillisecond,
+                MetadataAddress,
+                refreshReason,
+                operationStatus,
+                exceptionType);
         }
 
         /// <summary>
