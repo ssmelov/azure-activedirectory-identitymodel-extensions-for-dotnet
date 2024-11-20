@@ -44,7 +44,7 @@ namespace Microsoft.IdentityModel.Tokens
         private readonly bool _maintainLRU;
         private ConcurrentDictionary<TKey, LRUCacheItem<TKey, TValue>> _map;
         // When the current cache size gets to this percentage of _capacity, _compactionPercentage% of the cache will be removed.
-        private readonly double _maxCapacityPercentage = .95;
+        private readonly double _maxCapacityPercentage = .75;
         private readonly int _compactIntervalInSeconds;
 
         // if true, expired values will not be added to the cache and clean-up of expired values will occur on a 5 minute interval
