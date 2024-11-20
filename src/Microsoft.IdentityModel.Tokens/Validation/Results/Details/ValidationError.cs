@@ -22,13 +22,13 @@ namespace Microsoft.IdentityModel.Tokens
         /// Creates an instance of <see cref="ValidationError"/>
         /// </summary>
         /// <param name="messageDetail"/> contains information about the exception that is used to generate the exception message.
-        /// <param name="failureType"/> is the type of validation failure that occurred.
+        /// <param name="validationFailureType"/> is the type of validation failure that occurred.
         /// <param name="exceptionType"/> is the type of exception that occurred.
         /// <param name="stackFrame"/> is the stack frame where the exception occurred.
         /// <param name="innerException"/> is the inner exception that occurred.
         internal ValidationError(
             MessageDetail messageDetail,
-            ValidationFailureType failureType,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             Exception? innerException = null)
@@ -36,7 +36,7 @@ namespace Microsoft.IdentityModel.Tokens
             InnerException = innerException;
             MessageDetail = messageDetail;
             _exceptionType = exceptionType;
-            FailureType = failureType;
+            FailureType = validationFailureType;
             StackFrames = new List<StackFrame>(4)
             {
                 stackFrame
