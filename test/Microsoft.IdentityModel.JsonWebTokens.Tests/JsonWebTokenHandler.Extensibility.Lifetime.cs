@@ -77,11 +77,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new CustomLifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.CustomLifetimeValidatorDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(SecurityTokenInvalidLifetimeException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 160),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed)
+                        utcPlusOneHour)
                 });
 
                 // CustomLifetimeValidationError : LifetimeValidationError, ExceptionType: CustomSecurityTokenInvalidLifetimeException : SecurityTokenInvalidLifetimeException
@@ -97,11 +97,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new CustomLifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.CustomLifetimeValidatorCustomExceptionDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(CustomSecurityTokenInvalidLifetimeException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 175),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed),
+                        utcPlusOneHour),
                 });
 
                 // CustomLifetimeValidationError : LifetimeValidationError, ExceptionType: NotSupportedException : SystemException
@@ -120,11 +120,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new CustomLifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.CustomLifetimeValidatorUnknownExceptionDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(NotSupportedException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 205),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed),
+                        utcPlusOneHour),
                 });
 
                 // CustomLifetimeValidationError : LifetimeValidationError, ExceptionType: NotSupportedException : SystemException, ValidationFailureType: CustomAudienceValidationFailureType
@@ -140,11 +140,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new CustomLifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.CustomLifetimeValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                        CustomLifetimeValidationError.CustomLifetimeValidationFailureType,
                         typeof(CustomSecurityTokenInvalidLifetimeException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 190),
                         utcNow,
-                        utcPlusOneHour,
-                        CustomLifetimeValidationError.CustomLifetimeValidationFailureType),
+                        utcPlusOneHour),
                 });
                 #endregion
 
@@ -163,11 +163,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new LifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.LifetimeValidatorDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(SecurityTokenInvalidLifetimeException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 235),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed)
+                        utcPlusOneHour)
                 });
 
                 // LifetimeValidationError : ValidationError, ExceptionType:  CustomSecurityTokenInvalidLifetimeException : SecurityTokenInvalidLifetimeException
@@ -186,11 +186,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new LifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.LifetimeValidatorCustomLifetimeExceptionTypeDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(CustomSecurityTokenInvalidLifetimeException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 259),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed)
+                        utcPlusOneHour)
                 });
 
                 // LifetimeValidationError : ValidationError, ExceptionType:  CustomSecurityTokenException : SystemException
@@ -209,11 +209,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new LifetimeValidationError(
                         new MessageDetail(
                             nameof(CustomLifetimeValidationDelegates.LifetimeValidatorCustomExceptionTypeDelegate), null),
+                        ValidationFailureType.LifetimeValidationFailed,
                         typeof(CustomSecurityTokenException),
                         new StackFrame("CustomLifetimeValidationDelegates.cs", 274),
                         utcNow,
-                        utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidationFailed)
+                        utcPlusOneHour)
                 });
 
                 // LifetimeValidationError : ValidationError, ExceptionType: SecurityTokenInvalidLifetimeException, inner: CustomSecurityTokenInvalidLifetimeException
@@ -230,11 +230,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     LifetimeValidationError = new LifetimeValidationError(
                         new MessageDetail(
                             string.Format(Tokens.LogMessages.IDX10271), null),
+                        ValidationFailureType.LifetimeValidatorThrew,
                         typeof(SecurityTokenInvalidLifetimeException),
                         new StackFrame("JsonWebTokenHandler.ValidateToken.Internal.cs", 250),
                         utcNow,
                         utcPlusOneHour,
-                        ValidationFailureType.LifetimeValidatorThrew,
                         new SecurityTokenInvalidLifetimeException(nameof(CustomLifetimeValidationDelegates.LifetimeValidatorThrows))
                     )
                 });
