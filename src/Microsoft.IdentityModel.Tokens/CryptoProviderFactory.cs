@@ -269,7 +269,34 @@ namespace Microsoft.IdentityModel.Tokens
         /// <returns>A <see cref="SignatureProvider"/> instance that can be used to create a signature.</returns>
         public virtual SignatureProvider CreateForSigning(SecurityKey key, string algorithm, bool cacheProvider)
         {
-            return CreateSignatureProvider(key, algorithm, true, cacheProvider);
+            return CreateSignatureProvider(key, algorithm, true, cacheProvider, false);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="SignatureProvider"/> for signing with the specified <paramref name="key"/> and <paramref name="algorithm"/>.
+        /// </summary>
+        /// <param name="key">The <see cref="SecurityKey"/> to use for signing.</param>
+        /// <param name="algorithm">The algorithm to use for signing.</param>
+        /// <param name="cacheProvider">Indicates whether the <see cref="SignatureProvider"/> should be cached for reuse.</param>
+        /// <param name="ownKey"></param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="algorithm"/> is null or empty.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <see cref="SecurityKey.KeySize"/> is too small.</exception>
+        /// <exception cref="NotSupportedException">Thrown if <paramref name="key"/> is not assignable from <see cref="AsymmetricSecurityKey"/> or <see cref="SymmetricSecurityKey"/>.</exception>
+        /// <exception cref="NotSupportedException">Thrown if the combination of <paramref name="key"/> and <paramref name="algorithm"/> is not supported.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the type returned by <see cref="ICryptoProvider.Create(string, object[])"/> is not assignable to <see cref="SignatureProvider"/>.</exception>
+        /// <remarks>
+        /// <para>AsymmetricSignatureProviders require access to a PrivateKey for signing.</para>
+        /// <para>Once done with the <see cref="SignatureProvider"/>, call <see cref="ReleaseSignatureProvider(SignatureProvider)"/>.</para>
+        /// <para>If <see cref="CustomCryptoProvider"/> is set and <see cref="ICryptoProvider.IsSupportedAlgorithm(string, object[])"/> returns true,
+        /// <see cref="ICryptoProvider.Create(string, object[])"/> is called to obtain the <see cref="SignatureProvider"/>.
+        /// </para>
+        /// </remarks>
+        /// <returns>A <see cref="SignatureProvider"/> instance that can be used to create a signature.</returns>
+
+        public SignatureProvider CreateForSigning(SecurityKey key, string algorithm, bool cacheProvider, bool ownKey)
+        {
+            return CreateSignatureProvider(key, algorithm, true, cacheProvider, ownKey);
         }
 
         /// <summary>
@@ -316,7 +343,32 @@ namespace Microsoft.IdentityModel.Tokens
         /// <returns>A <see cref="SignatureProvider"/> instance that can be used to validate signatures using the <see cref="SecurityKey"/> and algorithm.</returns>
         public virtual SignatureProvider CreateForVerifying(SecurityKey key, string algorithm, bool cacheProvider)
         {
-            return CreateSignatureProvider(key, algorithm, false, cacheProvider);
+            return CreateSignatureProvider(key, algorithm, false, cacheProvider, false);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="SignatureProvider"/> for verifying signatures with the specified <paramref name="key"/> and <paramref name="algorithm"/>.
+        /// </summary>
+        /// <param name="key">The <see cref="SecurityKey"/> to use for signature verification.</param>
+        /// <param name="algorithm">The algorithm to use for verifying signatures.</param>
+        /// <param name="cacheProvider">Specifies whether the <see cref="SignatureProvider"/> should be cached for reuse.</param>
+        /// <param name="ownKey"></param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="algorithm"/> is null or empty.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <see cref="SecurityKey.KeySize"/> is too small.</exception>
+        /// <exception cref="NotSupportedException">Thrown if <paramref name="key"/> is not assignable from <see cref="AsymmetricSecurityKey"/> or <see cref="SymmetricSecurityKey"/>.</exception>
+        /// <exception cref="NotSupportedException">Thrown if the combination of <paramref name="key"/> and <paramref name="algorithm"/> is not supported.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the type returned by <see cref="ICryptoProvider.Create(string, object[])"/> is not assignable to <see cref="SignatureProvider"/>.</exception>
+        /// <remarks>
+        /// <para>Once done with the <see cref="SignatureProvider"/>, call <see cref="ReleaseSignatureProvider(SignatureProvider)"/>.</para>
+        /// <para>If <see cref="CustomCryptoProvider"/> is set and <see cref="ICryptoProvider.IsSupportedAlgorithm(string, object[])"/> returns true,
+        /// <see cref="ICryptoProvider.Create(string, object[])"/> is called to obtain the <see cref="SignatureProvider"/>.
+        /// </para>
+        /// </remarks>
+        /// <returns>A <see cref="SignatureProvider"/> instance that can be used to validate signatures using the <see cref="SecurityKey"/> and algorithm.</returns>
+        public virtual SignatureProvider CreateForVerifying(SecurityKey key, string algorithm, bool cacheProvider, bool ownKey)
+        {
+            return CreateSignatureProvider(key, algorithm, false, cacheProvider, ownKey);
         }
 
         /// <summary>
@@ -503,6 +555,16 @@ namespace Microsoft.IdentityModel.Tokens
 
         private SignatureProvider CreateSignatureProvider(SecurityKey key, string algorithm, bool willCreateSignatures, bool cacheProvider)
         {
+            return CreateSignatureProvider(key, algorithm, willCreateSignatures, cacheProvider, false);
+        }
+
+        private SignatureProvider CreateSignatureProvider(
+            SecurityKey key,
+            string algorithm,
+            bool willCreateSignatures,
+            bool cacheProvider,
+            bool ownKey)
+        {
             if (key == null)
                 throw LogHelper.LogArgumentNullException(nameof(key));
 
@@ -594,7 +656,7 @@ namespace Microsoft.IdentityModel.Tokens
                     throw LogHelper.LogExceptionMessage(new NotSupportedException(LogHelper.FormatInvariant(LogMessages.IDX10634, LogHelper.MarkAsNonPII(algorithm), key)));
 
                 if (createAsymmetric)
-                    signatureProvider = new AsymmetricSignatureProvider(key, algorithm, willCreateSignatures, this);
+                    signatureProvider = new AsymmetricSignatureProvider(key, algorithm, willCreateSignatures, this, ownKey);
                 else
                     signatureProvider = new SymmetricSignatureProvider(key, algorithm, willCreateSignatures);
 

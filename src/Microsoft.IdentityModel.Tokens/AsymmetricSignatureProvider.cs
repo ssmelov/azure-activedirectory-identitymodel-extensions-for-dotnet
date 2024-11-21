@@ -16,6 +16,7 @@ namespace Microsoft.IdentityModel.Tokens
         private DisposableObjectPool<AsymmetricAdapter> _asymmetricAdapterObjectPool;
         private CryptoProviderFactory _cryptoProviderFactory;
         private bool _disposed;
+        private bool _ownKey;
         private Dictionary<string, int> _minimumAsymmetricKeySizeInBitsForSigningMap;
         private Dictionary<string, int> _minimumAsymmetricKeySizeInBitsForVerifyingMap;
 
@@ -75,10 +76,16 @@ namespace Microsoft.IdentityModel.Tokens
             _cryptoProviderFactory = cryptoProviderFactory;
         }
 
-        internal AsymmetricSignatureProvider(SecurityKey key, string algorithm, bool willCreateSignatures, CryptoProviderFactory cryptoProviderFactory)
+        internal AsymmetricSignatureProvider(
+            SecurityKey key,
+            string algorithm,
+            bool willCreateSignatures,
+            CryptoProviderFactory cryptoProviderFactory,
+            bool ownKey = false)
             : this(key, algorithm, willCreateSignatures)
         {
             _cryptoProviderFactory = cryptoProviderFactory;
+            _ownKey = ownKey;
         }
 
         /// <summary>
@@ -172,7 +179,7 @@ namespace Microsoft.IdentityModel.Tokens
         private AsymmetricAdapter CreateAsymmetricAdapter()
         {
             var hashAlgoritmName = GetHashAlgorithmName(Algorithm);
-            return new AsymmetricAdapter(Key, Algorithm, _cryptoProviderFactory.CreateHashAlgorithm(hashAlgoritmName), hashAlgoritmName, WillCreateSignatures);
+            return new AsymmetricAdapter(Key, Algorithm, _cryptoProviderFactory.CreateHashAlgorithm(hashAlgoritmName), hashAlgoritmName, WillCreateSignatures, _ownKey);
         }
 
         internal bool ValidKeySize()

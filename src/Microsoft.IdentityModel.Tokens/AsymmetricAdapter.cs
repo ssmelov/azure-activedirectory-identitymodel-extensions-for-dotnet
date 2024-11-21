@@ -31,6 +31,7 @@ namespace Microsoft.IdentityModel.Tokens
 #endif
         private bool _disposeCryptoOperators;
         private bool _disposed;
+        private bool _ownKey;
         private DecryptDelegate _decryptFunction = DecryptFunctionNotFound;
         private EncryptDelegate _encryptFunction = EncryptFunctionNotFound;
         private SignDelegate _signFunction = SignFunctionNotFound;
@@ -47,10 +48,10 @@ namespace Microsoft.IdentityModel.Tokens
         {
         }
 
-        internal AsymmetricAdapter(SecurityKey key, string algorithm, HashAlgorithm hashAlgorithm, HashAlgorithmName hashAlgorithmName, bool requirePrivateKey)
+        internal AsymmetricAdapter(SecurityKey key, string algorithm, HashAlgorithm hashAlgorithm, HashAlgorithmName hashAlgorithmName, bool requirePrivateKey, bool ownKey = false)
             : this(key, algorithm, hashAlgorithm, requirePrivateKey)
         {
-
+            _ownKey = ownKey;
             HashAlgorithmName = hashAlgorithmName;
         }
 
@@ -117,7 +118,7 @@ namespace Microsoft.IdentityModel.Tokens
                 _disposed = true;
                 if (disposing)
                 {
-                    if (_disposeCryptoOperators)
+                    if (_disposeCryptoOperators || _ownKey)
                     {
                         if (ECDsa != null)
                             ECDsa.Dispose();

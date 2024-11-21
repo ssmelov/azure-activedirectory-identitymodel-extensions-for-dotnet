@@ -1,2 +1,4 @@
+Microsoft.IdentityModel.Tokens.CryptoProviderFactory.CreateForSigning(Microsoft.IdentityModel.Tokens.SecurityKey key, string algorithm, bool cacheProvider, bool ownKey) -> Microsoft.IdentityModel.Tokens.SignatureProvider
 Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor.IncludeKeyIdInHeader.get -> bool
 Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor.IncludeKeyIdInHeader.set -> void
+virtual Microsoft.IdentityModel.Tokens.CryptoProviderFactory.CreateForVerifying(Microsoft.IdentityModel.Tokens.SecurityKey key, string algorithm, bool cacheProvider, bool ownKey) -> Microsoft.IdentityModel.Tokens.SignatureProvider
