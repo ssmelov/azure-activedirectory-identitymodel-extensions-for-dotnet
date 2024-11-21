@@ -41,8 +41,8 @@ namespace Microsoft.IdentityModel.Tokens
             return base.GetException(ExceptionType, null);
         }
 
-        protected IList<string>? TokenAudiences { get; set; }
-        protected IList<string>? ValidAudiences { get; set; }
+        protected IList<string>? TokenAudiences { get; }
+        protected IList<string>? ValidAudiences { get; }
     }
 }
 #nullable restore

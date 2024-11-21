@@ -20,10 +20,8 @@ namespace Microsoft.IdentityModel.Tokens
 
             : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
-            if (notBefore.HasValue)
-                NotBefore = notBefore.Value;
-            if (expires.HasValue)
-                Expires = expires.Value;
+            NotBefore = notBefore;
+            Expires = expires;
         }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace Microsoft.IdentityModel.Tokens
             {
                 var exception = new SecurityTokenNotYetValidException(MessageDetail.Message, InnerException)
                 {
-                    NotBefore = NotBefore
+                    NotBefore = (DateTime)NotBefore!
                 };
                 exception.SetValidationError(this);
                 return exception;
@@ -61,7 +59,7 @@ namespace Microsoft.IdentityModel.Tokens
             {
                 var exception = new SecurityTokenExpiredException(MessageDetail.Message, InnerException)
                 {
-                    Expires = Expires
+                    Expires = (DateTime)Expires!
                 };
                 exception.SetValidationError(this);
                 return exception;
@@ -70,9 +68,9 @@ namespace Microsoft.IdentityModel.Tokens
                 return base.GetException(ExceptionType, null);
         }
 
-        protected DateTime NotBefore { get; set; }
+        protected DateTime? NotBefore { get; }
 
-        protected DateTime Expires { get; set; }
+        protected DateTime? Expires { get; }
     }
 }
 #nullable restore

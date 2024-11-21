@@ -20,11 +20,9 @@ Microsoft.IdentityModel.Tokens.IssuerValidationError.InvalidIssuer.get -> string
 Microsoft.IdentityModel.Tokens.IssuerValidationError.IssuerValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, string invalidIssuer, System.Exception innerException = null) -> void
 Microsoft.IdentityModel.Tokens.IssuerValidationSource.IssuerMatchedConfiguration = 1 -> Microsoft.IdentityModel.Tokens.IssuerValidationSource
 Microsoft.IdentityModel.Tokens.IssuerValidationSource.IssuerMatchedValidationParameters = 2 -> Microsoft.IdentityModel.Tokens.IssuerValidationSource
-Microsoft.IdentityModel.Tokens.LifetimeValidationError.Expires.get -> System.DateTime
-Microsoft.IdentityModel.Tokens.LifetimeValidationError.Expires.set -> void
+Microsoft.IdentityModel.Tokens.LifetimeValidationError.Expires.get -> System.DateTime?
 Microsoft.IdentityModel.Tokens.LifetimeValidationError.LifetimeValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, System.DateTime? notBefore, System.DateTime? expires, System.Exception innerException = null) -> void
-Microsoft.IdentityModel.Tokens.LifetimeValidationError.NotBefore.get -> System.DateTime
-Microsoft.IdentityModel.Tokens.LifetimeValidationError.NotBefore.set -> void
+Microsoft.IdentityModel.Tokens.LifetimeValidationError.NotBefore.get -> System.DateTime?
 Microsoft.IdentityModel.Tokens.TokenTypeValidationError
 Microsoft.IdentityModel.Tokens.TokenTypeValidationError.TokenTypeValidationError(Microsoft.IdentityModel.Tokens.MessageDetail messageDetail, Microsoft.IdentityModel.Tokens.ValidationFailureType validationFailureType, System.Type exceptionType, System.Diagnostics.StackFrame stackFrame, string invalidTokenType, System.Exception innerException = null) -> void
 Microsoft.IdentityModel.Tokens.TokenTypeValidationError._invalidTokenType -> string
