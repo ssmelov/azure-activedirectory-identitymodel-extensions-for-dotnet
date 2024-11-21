@@ -12,11 +12,11 @@ namespace Microsoft.IdentityModel.Xml
     {
         public XmlValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
-            ValidationFailureType validationFailureType,
             Exception? innerException = null) :
-            base(messageDetail, exceptionType, stackFrame, validationFailureType, innerException)
+            base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
 
         }

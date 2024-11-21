@@ -66,9 +66,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10000,
                                 LogHelper.MarkAsNonPII("validationParameters")),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null, // StackFrame
-                            ValidationFailureType.NullArgument),
+                            null), // StackFrame
                     },
                     new AlgorithmTheoryData
                     {
@@ -85,9 +85,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10696,
                                 LogHelper.MarkAsNonPII(SecurityAlgorithms.Sha256)),
+                            ValidationFailureType.AlgorithmValidationFailed,
                             typeof(SecurityTokenInvalidAlgorithmException),
-                            null,// StackFrame
-                            ValidationFailureType.AlgorithmValidationFailed),
+                            null), // StackFrame
                     },
                     new AlgorithmTheoryData
                     {

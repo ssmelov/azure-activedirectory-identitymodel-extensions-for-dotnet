@@ -11,11 +11,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
     {
         internal Saml2ValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
-            ValidationFailureType failureType,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, failureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
         }
 

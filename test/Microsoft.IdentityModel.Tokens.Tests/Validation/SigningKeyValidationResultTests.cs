@@ -75,9 +75,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                         ValidationParameters = new ValidationParameters(){ TimeProvider = timeProvider },
                         Result = new ValidationError(
                             new MessageDetail(LogMessages.IDX10253),
+                            ValidationFailureType.SigningKeyValidationFailed,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.SigningKeyValidationFailed),
+                            null),
                     },
                     new SigningKeyValidationTheoryData
                     {
@@ -90,9 +90,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10000,
                                 LogHelper.MarkAsNonPII("securityToken")),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.NullArgument),
+                            null),
                     },
                     new SigningKeyValidationTheoryData
                     {
@@ -105,9 +105,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                             new MessageDetail(
                                 LogMessages.IDX10000,
                                 LogHelper.MarkAsNonPII("validationParameters")),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.NullArgument),
+                            null),
                     },
                     new SigningKeyValidationTheoryData
                     {
@@ -121,9 +121,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                                 LogMessages.IDX10249,
                                 LogHelper.MarkAsNonPII(utcExpired),
                                 LogHelper.MarkAsNonPII(utcNow)),
+                            ValidationFailureType.SigningKeyValidationFailed,
                             typeof(SecurityTokenInvalidSigningKeyException),
-                            null,
-                            ValidationFailureType.SigningKeyValidationFailed),
+                            null),
                     },
                     new SigningKeyValidationTheoryData
                     {
@@ -137,9 +137,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                                 LogMessages.IDX10248,
                                 LogHelper.MarkAsNonPII(utcNotYetValid),
                                 LogHelper.MarkAsNonPII(utcNow)),
+                            ValidationFailureType.SigningKeyValidationFailed,
                             typeof(SecurityTokenInvalidSigningKeyException),
-                            null,
-                            ValidationFailureType.SigningKeyValidationFailed),
+                            null),
                     },
                     new SigningKeyValidationTheoryData
                     {
@@ -150,9 +150,9 @@ namespace Microsoft.IdentityModel.Tokens.Validation.Tests
                         ValidationParameters = new ValidationParameters() { TimeProvider = timeProvider },
                         Result = new ValidationError(
                             new MessageDetail(LogMessages.IDX10253),
+                            ValidationFailureType.SigningKeyValidationFailed,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.SigningKeyValidationFailed),
+                            null),
                     },
 
                 };

@@ -12,13 +12,13 @@ namespace Microsoft.IdentityModel.Tokens
     {
         public AudienceValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             IList<string>? tokenAudiences,
             IList<string>? validAudiences,
-            ValidationFailureType? failureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, failureType ?? ValidationFailureType.AudienceValidationFailed, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
             TokenAudiences = tokenAudiences;
             ValidAudiences = validAudiences;

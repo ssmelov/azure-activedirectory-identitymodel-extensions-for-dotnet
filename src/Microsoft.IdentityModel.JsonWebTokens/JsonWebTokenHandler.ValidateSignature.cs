@@ -55,9 +55,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         LogHelper.MarkAsSecurityArtifact(
                             jwtToken.EncodedToken,
                             JwtTokenUtilities.SafeLogJwtToken)),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenInvalidSignatureException),
-                    new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed);
+                    new StackFrame(true));
 
             SecurityKey? key = null;
             if (validationParameters.IssuerSigningKeyResolver is not null)
@@ -101,17 +101,17 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                             LogHelper.MarkAsNonPII(validationParameters.IssuerSigningKeys.Count),
                             LogHelper.MarkAsNonPII(configuration?.SigningKeys.Count ?? 0),
                             LogHelper.MarkAsSecurityArtifact(jwtToken.EncodedToken, JwtTokenUtilities.SafeLogJwtToken)),
+                        ValidationFailureType.SignatureValidationFailed,
                         typeof(SecurityTokenSignatureKeyNotFoundException),
-                        kidNotMatchedNoTryAllStackFrame,
-                        ValidationFailureType.SignatureValidationFailed);
+                        kidNotMatchedNoTryAllStackFrame);
                 }
 
                 StackFrame noKeysProvidedStackFrame = StackFrames.NoKeysProvided ??= new StackFrame(true);
                 return new ValidationError(
                     new MessageDetail(TokenLogMessages.IDX10500),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenSignatureKeyNotFoundException),
-                    noKeysProvidedStackFrame,
-                    ValidationFailureType.SignatureValidationFailed);
+                    noKeysProvidedStackFrame);
             }
         }
 
@@ -146,9 +146,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             if (vpFailedResult is null && configFailedResult is null) // No keys were attempted
                 return new ValidationError(
                     new MessageDetail(TokenLogMessages.IDX10500),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenSignatureKeyNotFoundException),
-                    new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed);
+                    new StackFrame(true));
 
             StringBuilder exceptionStrings = new();
             StringBuilder keysAttempted = new();
@@ -228,9 +228,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         TokenLogMessages.IDX10400,
                         LogHelper.MarkAsNonPII(jsonWebToken.Alg),
                         key),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenInvalidAlgorithmException),
-                    new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed);
+                    new StackFrame(true));
             }
 
             ValidationResult<string> result = validationParameters.AlgorithmValidator(
@@ -248,6 +248,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         new MessageDetail(
                             TokenLogMessages.IDX10518,
                             algorithmValidationError.MessageDetail.Message),
+                        ValidationFailureType.AlgorithmValidationFailed,
                         typeof(SecurityTokenInvalidAlgorithmException),
                         new StackFrame(true),
                         algorithmValidationError.InvalidAlgorithm);
@@ -259,9 +260,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         new MessageDetail(
                             TokenLogMessages.IDX10518,
                             result.UnwrapError().MessageDetail.Message),
+                        ValidationFailureType.SignatureAlgorithmValidationFailed,
                         typeof(SecurityTokenInvalidAlgorithmException),
-                        new StackFrame(true),
-                        ValidationFailureType.SignatureAlgorithmValidationFailed);
+                        new StackFrame(true));
                 }
             }
 
@@ -274,9 +275,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                             TokenLogMessages.IDX10636,
                             key?.ToString() ?? "Null",
                             LogHelper.MarkAsNonPII(jsonWebToken.Alg)),
+                        ValidationFailureType.SignatureValidationFailed,
                         typeof(InvalidOperationException),
-                        new StackFrame(true),
-                        ValidationFailureType.SignatureValidationFailed);
+                        new StackFrame(true));
 
                 bool valid = EncodingUtils.PerformEncodingDependentOperation<bool, string, int, SignatureProvider>(
                     jsonWebToken.EncodedToken,
@@ -297,9 +298,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                             LogHelper.MarkAsSecurityArtifact(
                                 jsonWebToken.EncodedToken,
                                 JwtTokenUtilities.SafeLogJwtToken)),
+                        ValidationFailureType.SignatureValidationFailed,
                         typeof(SecurityTokenInvalidSignatureException),
-                        new StackFrame(true),
-                        ValidationFailureType.SignatureValidationFailed);
+                        new StackFrame(true));
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
@@ -311,9 +312,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         LogHelper.MarkAsSecurityArtifact(
                             jsonWebToken.EncodedToken,
                             JwtTokenUtilities.SafeLogJwtToken)),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenInvalidSignatureException),
                     new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed,
                     ex);
             }
             finally
@@ -352,9 +353,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         LogHelper.MarkAsNonPII(jwtToken.Kid),
                         exceptionStrings.ToString(),
                         LogHelper.MarkAsSecurityArtifact(jwtToken.EncodedToken, JwtTokenUtilities.SafeLogJwtToken)),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenSignatureKeyNotFoundException),
-                    new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed);
+                    new StackFrame(true));
             }
 
             if (kidExists)
@@ -367,9 +368,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                         LogHelper.MarkAsNonPII(numKeysInConfiguration),
                         exceptionStrings.ToString(),
                         LogHelper.MarkAsSecurityArtifact(jwtToken.EncodedToken, JwtTokenUtilities.SafeLogJwtToken)),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenSignatureKeyNotFoundException),
-                    new StackFrame(true),
-                    ValidationFailureType.SignatureValidationFailed);
+                    new StackFrame(true));
 
             return new ValidationError(
                 new MessageDetail(
@@ -379,9 +380,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     LogHelper.MarkAsNonPII(numKeysInConfiguration),
                     exceptionStrings.ToString(),
                     LogHelper.MarkAsSecurityArtifact(jwtToken.EncodedToken, JwtTokenUtilities.SafeLogJwtToken)),
+                ValidationFailureType.SignatureValidationFailed,
                 typeof(SecurityTokenSignatureKeyNotFoundException),
-                new StackFrame(true),
-                ValidationFailureType.SignatureValidationFailed);
+                new StackFrame(true));
         }
 
         private static void PopulateFailedResults(

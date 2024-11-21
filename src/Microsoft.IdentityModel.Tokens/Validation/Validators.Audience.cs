@@ -63,22 +63,22 @@ namespace Microsoft.IdentityModel.Tokens
             {
                 return new AudienceValidationError(
                     new MessageDetail(LogMessages.IDX10206),
+                    ValidationFailureType.NoTokenAudiencesProvided,
                     typeof(SecurityTokenInvalidAudienceException),
                     ValidationError.GetCurrentStackFrame(),
                     tokenAudiences,
-                    validationParameters.ValidAudiences,
-                    ValidationFailureType.NoTokenAudiencesProvided);
+                    validationParameters.ValidAudiences);
             }
 
             if (validationParameters.ValidAudiences.Count == 0)
             {
                 return new AudienceValidationError(
                         new MessageDetail(LogMessages.IDX10268),
+                        ValidationFailureType.NoValidationParameterAudiencesProvided,
                         typeof(SecurityTokenInvalidAudienceException),
                         ValidationError.GetCurrentStackFrame(),
                         tokenAudiences,
-                        validationParameters.ValidAudiences,
-                        ValidationFailureType.NoValidationParameterAudiencesProvided);
+                        validationParameters.ValidAudiences);
             }
 
             string? validAudience = ValidTokenAudience(tokenAudiences, validationParameters.ValidAudiences, validationParameters.IgnoreTrailingSlashWhenValidatingAudience);
@@ -91,6 +91,7 @@ namespace Microsoft.IdentityModel.Tokens
                     LogMessages.IDX10215,
                     LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(tokenAudiences)),
                     LogHelper.MarkAsNonPII(Utility.SerializeAsSingleCommaDelimitedString(validationParameters.ValidAudiences))),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(SecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,

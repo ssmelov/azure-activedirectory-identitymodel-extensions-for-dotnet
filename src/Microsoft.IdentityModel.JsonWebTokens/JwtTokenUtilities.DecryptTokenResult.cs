@@ -122,9 +122,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             {
                 return new ValidationError(
                     new MessageDetail(TokenLogMessages.IDX10679, zipAlgorithm),
+                    ValidationFailureType.TokenDecryptionFailed,
                     typeof(SecurityTokenDecompressionFailedException),
                     new StackFrame(true),
-                    ValidationFailureType.TokenDecryptionFailed,
                     ex);
             }
         }

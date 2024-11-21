@@ -41,9 +41,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
                     new MessageDetail(
                         TokenLogMessages.IDX10504,
                         samlToken.Assertion.CanonicalString),
+                    ValidationFailureType.TokenIsNotSigned,
                     typeof(SecurityTokenValidationException),
-                    ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.TokenIsNotSigned);
+                    ValidationError.GetCurrentStackFrame());
 
             SecurityKey? resolvedKey = null;
             bool keyMatched = false;
@@ -109,9 +109,9 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
                         samlToken.Assertion.Signature.KeyInfo,
                         GetErrorStrings(error, errors),
                         samlToken),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenInvalidSignatureException),
-                    ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.SignatureValidationFailed);
+                    ValidationError.GetCurrentStackFrame());
 
             string? keysAttemptedString = null;
             if (resolvedKey is not null)
@@ -126,15 +126,15 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
                         keysAttemptedString,
                         GetErrorStrings(error, errors),
                         samlToken),
+                    ValidationFailureType.SignatureValidationFailed,
                     typeof(SecurityTokenSignatureKeyNotFoundException),
-                    ValidationError.GetCurrentStackFrame(),
-                    ValidationFailureType.SignatureValidationFailed);
+                    ValidationError.GetCurrentStackFrame());
 
             return new XmlValidationError(
                 new MessageDetail(TokenLogMessages.IDX10500),
+                ValidationFailureType.SignatureValidationFailed,
                 typeof(SecurityTokenSignatureKeyNotFoundException),
-                ValidationError.GetCurrentStackFrame(),
-                ValidationFailureType.SignatureValidationFailed);
+                ValidationError.GetCurrentStackFrame());
         }
 
         private static ValidationResult<SecurityKey> ValidateSignatureUsingKey(SecurityKey key, Saml2SecurityToken samlToken, ValidationParameters validationParameters, CallContext callContext)

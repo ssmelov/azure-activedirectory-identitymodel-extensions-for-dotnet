@@ -86,9 +86,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                             new MessageDetail(
                                 TokenLogMessages.IDX10000,
                                 "jwtToken"),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.NullArgument)
+                            null)
                     },
                     new JsonWebTokenHandlerValidateSignatureTheoryData {
                         TestId = "Invalid_Null_ValidationParameters",
@@ -99,9 +99,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                             new MessageDetail(
                                 TokenLogMessages.IDX10000,
                                 "validationParameters"),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.NullArgument)
+                            null)
                     },
                     new JsonWebTokenHandlerValidateSignatureTheoryData {
                         TestId = "Invalid_DelegateReturnsFailure",
@@ -115,9 +115,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                             new MessageDetail(
                                 TokenLogMessages.IDX10000,
                                 "fakeParameter"),
+                            ValidationFailureType.NullArgument,
                             typeof(SecurityTokenArgumentNullException),
-                            null,
-                            ValidationFailureType.NullArgument)
+                            null)
                     },
                     new JsonWebTokenHandlerValidateSignatureTheoryData
                     {
@@ -129,9 +129,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                             new MessageDetail(
                                 TokenLogMessages.IDX10504,
                                 LogHelper.MarkAsSecurityArtifact(unsignedToken, JwtTokenUtilities.SafeLogJwtToken)),
+                            ValidationFailureType.SignatureValidationFailed,
                             typeof(SecurityTokenInvalidSignatureException),
-                            null,
-                            ValidationFailureType.SignatureValidationFailed)
+                            null)
                     },
                     new JsonWebTokenHandlerValidateSignatureTheoryData
                     {
@@ -198,9 +198,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                         ExpectedException = ExpectedException.SecurityTokenSignatureKeyNotFoundException("IDX10500:"),
                         Result = new ValidationError(
                             new MessageDetail(TokenLogMessages.IDX10500),
+                            ValidationFailureType.SignatureValidationFailed,
                             typeof(SecurityTokenSignatureKeyNotFoundException),
-                            null,
-                            ValidationFailureType.SignatureValidationFailed)
+                            null)
                     },
                     new JsonWebTokenHandlerValidateSignatureTheoryData
                     {
@@ -210,9 +210,9 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Tests
                         ExpectedException = ExpectedException.SecurityTokenSignatureKeyNotFoundException("IDX10502:"),
                         Result = new ValidationError(
                             new MessageDetail(TokenLogMessages.IDX10500),
+                            ValidationFailureType.SignatureValidationFailed,
                             typeof(SecurityTokenSignatureKeyNotFoundException),
-                            null,
-                            ValidationFailureType.SignatureValidationFailed)
+                            null)
                     }
                 };
             }

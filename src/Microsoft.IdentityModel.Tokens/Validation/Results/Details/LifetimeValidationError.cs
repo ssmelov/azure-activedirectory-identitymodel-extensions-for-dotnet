@@ -11,14 +11,14 @@ namespace Microsoft.IdentityModel.Tokens
     {
         public LifetimeValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             DateTime? notBefore,
             DateTime? expires,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
 
-            : base(messageDetail, exceptionType, stackFrame, validationFailureType ?? ValidationFailureType.LifetimeValidationFailed, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
             if (notBefore.HasValue)
                 NotBefore = notBefore.Value;

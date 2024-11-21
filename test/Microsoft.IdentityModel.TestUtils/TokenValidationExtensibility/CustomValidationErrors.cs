@@ -20,12 +20,12 @@ namespace Microsoft.IdentityModel.TestUtils
 
         public CustomIssuerValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             string? invalidIssuer,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, invalidIssuer, validationFailureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, invalidIssuer, innerException)
         {
         }
 
@@ -49,7 +49,7 @@ namespace Microsoft.IdentityModel.TestUtils
             Type exceptionType,
             StackFrame stackFrame,
             string? invalidIssuer) :
-            base(messageDetail, exceptionType, stackFrame, invalidIssuer)
+            base(messageDetail, ValidationFailureType.IssuerValidationFailed, exceptionType, stackFrame, invalidIssuer)
         {
         }
     }
@@ -66,13 +66,13 @@ namespace Microsoft.IdentityModel.TestUtils
 
         public CustomAudienceValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             IList<string>? tokenAudiences,
             IList<string>? validAudiences,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, tokenAudiences, validAudiences, validationFailureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, tokenAudiences, validAudiences, innerException)
         {
         }
 
@@ -98,9 +98,8 @@ namespace Microsoft.IdentityModel.TestUtils
             StackFrame stackFrame,
             IList<string>? tokenAudiences,
             IList<string>? validAudiences,
-            ValidationFailureType? failureType = null,
             Exception? innerException = null) :
-            base(messageDetail, exceptionType, stackFrame, tokenAudiences, validAudiences, failureType, innerException)
+            base(messageDetail, ValidationFailureType.AudienceValidationFailed, exceptionType, stackFrame, tokenAudiences, validAudiences, innerException)
         {
         }
     }
@@ -117,13 +116,13 @@ namespace Microsoft.IdentityModel.TestUtils
 
         public CustomLifetimeValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             DateTime? notBefore,
             DateTime? expires,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, notBefore, expires, validationFailureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, notBefore, expires)
         {
         }
 
@@ -145,13 +144,13 @@ namespace Microsoft.IdentityModel.TestUtils
     {
         public CustomLifetimeWithoutGetExceptionValidationOverrideError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             DateTime? notBefore,
             DateTime? expires,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, notBefore, expires, validationFailureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, notBefore, expires, innerException)
         {
         }
     }
