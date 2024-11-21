@@ -73,12 +73,13 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                 {
                     ExpectedException = new ExpectedException(
                         typeof(SecurityTokenInvalidIssuerException),
-                        nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorDelegateAsync)),
+                        nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorDelegateAsync)),
                     IssuerValidationError = new CustomIssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(SecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 88),
+                        new StackFrame("CustomIssuerValidationDelegates", 88),
                         issuerGuid)
                 });
 
@@ -91,12 +92,13 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                 {
                     ExpectedException = new ExpectedException(
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync)),
+                        nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync)),
                     IssuerValidationError = new CustomIssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 107),
+                        new StackFrame("CustomIssuerValidationDelegates", 107),
                         issuerGuid),
                 });
 
@@ -115,9 +117,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                             nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorUnknownExceptionDelegateAsync))),
                     IssuerValidationError = new CustomIssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorUnknownExceptionDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorUnknownExceptionDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(NotSupportedException),
-                        new StackFrame("CustomValidationDelegates.cs", 139),
+                        new StackFrame("CustomIssuerValidationDelegates", 139),
                         issuerGuid),
                 });
 
@@ -130,13 +133,13 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                 {
                     ExpectedException = new ExpectedException(
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync)),
+                        nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync)),
                     IssuerValidationError = new CustomIssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.CustomIssuerValidatorCustomExceptionCustomFailureTypeDelegateAsync), null),
                         CustomIssuerValidationError.CustomIssuerValidationFailureType,
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 123),
+                        new StackFrame("CustomIssuerValidationDelegates", 123),
                         issuerGuid,
                         null),
                 });
@@ -153,12 +156,13 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                 {
                     ExpectedException = new ExpectedException(
                         typeof(SecurityTokenInvalidIssuerException),
-                        nameof(CustomIssuerValidatorDelegates.IssuerValidatorDelegateAsync)),
+                        nameof(CustomIssuerValidationDelegates.IssuerValidatorDelegateAsync)),
                     IssuerValidationError = new IssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.IssuerValidatorDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.IssuerValidatorDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(SecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 169),
+                        new StackFrame("CustomIssuerValidationDelegates", 169),
                         issuerGuid)
                 });
 
@@ -177,9 +181,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                             nameof(CustomIssuerValidatorDelegates.IssuerValidatorCustomIssuerExceptionTypeDelegateAsync))),
                     IssuerValidationError = new IssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.IssuerValidatorCustomIssuerExceptionTypeDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.IssuerValidatorCustomIssuerExceptionTypeDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(CustomSecurityTokenInvalidIssuerException),
-                        new StackFrame("CustomValidationDelegates.cs", 196),
+                        new StackFrame("CustomIssuerValidationDelegates", 196),
                         issuerGuid)
                 });
 
@@ -198,9 +203,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                             nameof(CustomIssuerValidatorDelegates.IssuerValidatorCustomExceptionTypeDelegateAsync))),
                     IssuerValidationError = new IssuerValidationError(
                         new MessageDetail(
-                            nameof(CustomIssuerValidatorDelegates.IssuerValidatorCustomExceptionTypeDelegateAsync), null),
+                            nameof(CustomIssuerValidationDelegates.IssuerValidatorCustomExceptionTypeDelegateAsync), null),
+                        ValidationFailureType.IssuerValidationFailed,
                         typeof(CustomSecurityTokenException),
-                        new StackFrame("CustomValidationDelegates.cs", 210),
+                        new StackFrame("CustomIssuerValidationDelegates", 210),
                         issuerGuid)
                 });
 
@@ -222,7 +228,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                         typeof(SecurityTokenInvalidIssuerException),
                         new StackFrame("JsonWebTokenHandler.ValidateToken.Internal.cs", 300),
                         issuerGuid,
-                        new SecurityTokenInvalidIssuerException(nameof(CustomIssuerValidatorDelegates.IssuerValidatorThrows))
+                        new SecurityTokenInvalidIssuerException(nameof(CustomIssuerValidationDelegates.IssuerValidatorThrows))
                     )
                 });
                 #endregion
