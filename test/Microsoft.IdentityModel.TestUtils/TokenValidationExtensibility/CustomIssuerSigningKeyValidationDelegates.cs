@@ -19,6 +19,7 @@ namespace Microsoft.IdentityModel.TestUtils
             // Returns a CustomIssuerSigningKeyValidationError : IssuerSigningKeyValidationError
             return new CustomIssuerSigningKeyValidationError(
                 new MessageDetail(nameof(CustomIssuerSigningKeyValidatorDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(SecurityTokenInvalidSigningKeyException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,
@@ -34,6 +35,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomIssuerSigningKeyValidationError(
                 new MessageDetail(nameof(CustomIssuerSigningKeyValidatorCustomExceptionDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(CustomSecurityTokenInvalidSigningKeyException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,
@@ -49,10 +51,10 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomIssuerSigningKeyValidationError(
                 new MessageDetail(nameof(CustomIssuerSigningKeyValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                CustomIssuerSigningKeyValidationError.CustomIssuerSigningKeyValidationFailureType,
                 typeof(CustomSecurityTokenInvalidSigningKeyException),
                 ValidationError.GetCurrentStackFrame(),
-                signingKey,
-                CustomIssuerSigningKeyValidationError.CustomIssuerSigningKeyValidationFailureType);
+                signingKey);
         }
 
         internal static ValidationResult<ValidatedSigningKeyLifetime> CustomIssuerSigningKeyValidatorUnknownExceptionDelegate(
@@ -64,6 +66,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomIssuerSigningKeyValidationError(
                 new MessageDetail(nameof(CustomIssuerSigningKeyValidatorUnknownExceptionDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(NotSupportedException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,
@@ -94,6 +97,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new IssuerSigningKeyValidationError(
                 new MessageDetail(nameof(IssuerSigningKeyValidatorDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(SecurityTokenInvalidSigningKeyException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,
@@ -119,6 +123,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new IssuerSigningKeyValidationError(
                 new MessageDetail(nameof(IssuerSigningKeyValidatorCustomIssuerSigningKeyExceptionTypeDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(CustomSecurityTokenInvalidSigningKeyException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,
@@ -134,6 +139,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new IssuerSigningKeyValidationError(
                 new MessageDetail(nameof(IssuerSigningKeyValidatorCustomExceptionTypeDelegate), null),
+                ValidationFailureType.SigningKeyValidationFailed,
                 typeof(CustomSecurityTokenException),
                 ValidationError.GetCurrentStackFrame(),
                 signingKey,

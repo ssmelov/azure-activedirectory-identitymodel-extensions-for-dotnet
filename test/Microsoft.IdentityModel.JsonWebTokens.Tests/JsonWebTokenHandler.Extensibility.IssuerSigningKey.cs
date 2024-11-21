@@ -75,10 +75,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new CustomIssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.CustomIssuerSigningKeyValidatorDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(SecurityTokenInvalidSigningKeyException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 160),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed)
+                        null)
                 });
 
                 // CustomIssuerSigningKeyValidationError : IssuerSigningKeyValidationError, ExceptionType: CustomSecurityTokenInvalidIssuerSigningKeyException : SecurityTokenInvalidIssuerSigningKeyException
@@ -94,10 +94,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new CustomIssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.CustomIssuerSigningKeyValidatorCustomExceptionDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(CustomSecurityTokenInvalidSigningKeyException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 175),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed),
+                        null),
                 });
 
                 // CustomIssuerSigningKeyValidationError : IssuerSigningKeyValidationError, ExceptionType: NotSupportedException : SystemException
@@ -116,10 +116,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new CustomIssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.CustomIssuerSigningKeyValidatorUnknownExceptionDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(NotSupportedException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 205),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed),
+                        null),
                 });
 
                 // CustomIssuerSigningKeyValidationError : IssuerSigningKeyValidationError, ExceptionType: NotSupportedException : SystemException, ValidationFailureType: CustomAudienceValidationFailureType
@@ -135,10 +135,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new CustomIssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.CustomIssuerSigningKeyValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                        CustomIssuerSigningKeyValidationError.CustomIssuerSigningKeyValidationFailureType,
                         typeof(CustomSecurityTokenInvalidSigningKeyException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 190),
-                        null,
-                        CustomIssuerSigningKeyValidationError.CustomIssuerSigningKeyValidationFailureType),
+                        null),
                 });
                 #endregion
 
@@ -157,10 +157,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new IssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.IssuerSigningKeyValidatorDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(SecurityTokenInvalidSigningKeyException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 235),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed)
+                        null)
                 });
 
                 // IssuerSigningKeyValidationError : ValidationError, ExceptionType:  CustomSecurityTokenInvalidIssuerSigningKeyException : SecurityTokenInvalidIssuerSigningKeyException
@@ -179,10 +179,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new IssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.IssuerSigningKeyValidatorCustomIssuerSigningKeyExceptionTypeDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(CustomSecurityTokenInvalidSigningKeyException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 259),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed)
+                        null)
                 });
 
                 // IssuerSigningKeyValidationError : ValidationError, ExceptionType:  CustomSecurityTokenException : SystemException
@@ -201,10 +201,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new IssuerSigningKeyValidationError(
                         new MessageDetail(
                             nameof(CustomIssuerSigningKeyValidationDelegates.IssuerSigningKeyValidatorCustomExceptionTypeDelegate), null),
+                        ValidationFailureType.SigningKeyValidationFailed,
                         typeof(CustomSecurityTokenException),
                         new StackFrame("CustomIssuerSigningKeyValidationDelegates.cs", 274),
-                        null,
-                        ValidationFailureType.SigningKeyValidationFailed)
+                        null)
                 });
 
                 // IssuerSigningKeyValidationError : ValidationError, ExceptionType: SecurityTokenInvalidIssuerSigningKeyException, inner: CustomSecurityTokenInvalidIssuerSigningKeyException
@@ -221,10 +221,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
                     IssuerSigningKeyValidationError = new IssuerSigningKeyValidationError(
                         new MessageDetail(
                             string.Format(Tokens.LogMessages.IDX10274), null),
+                        ValidationFailureType.IssuerSigningKeyValidatorThrew,
                         typeof(SecurityTokenInvalidSigningKeyException),
                         new StackFrame("JsonWebTokenHandler.ValidateToken.Internal.cs", 250),
                         null,
-                        ValidationFailureType.IssuerSigningKeyValidatorThrew,
                         new SecurityTokenInvalidSigningKeyException(nameof(CustomIssuerSigningKeyValidationDelegates.IssuerSigningKeyValidatorThrows))
                     )
                 });

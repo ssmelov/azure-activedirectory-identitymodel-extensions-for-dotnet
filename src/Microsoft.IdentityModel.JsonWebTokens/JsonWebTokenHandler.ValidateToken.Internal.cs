@@ -369,10 +369,10 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             {
                 return new IssuerSigningKeyValidationError(
                     new MessageDetail(TokenLogMessages.IDX10274),
+                    ValidationFailureType.IssuerSigningKeyValidatorThrew,
                     typeof(SecurityTokenInvalidSigningKeyException),
                     ValidationError.GetCurrentStackFrame(),
                     jsonWebToken.SigningKey,
-                    ValidationFailureType.IssuerSigningKeyValidatorThrew,
                     ex);
             }
 

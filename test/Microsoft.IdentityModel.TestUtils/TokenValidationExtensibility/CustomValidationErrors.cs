@@ -167,12 +167,12 @@ namespace Microsoft.IdentityModel.TestUtils
 
         public CustomIssuerSigningKeyValidationError(
             MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
             SecurityKey? securityKey,
-            ValidationFailureType? validationFailureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, securityKey, validationFailureType, innerException)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, securityKey, innerException)
         {
         }
 
@@ -195,9 +195,8 @@ namespace Microsoft.IdentityModel.TestUtils
             Type exceptionType,
             StackFrame stackFrame,
             SecurityKey? securityKey,
-            ValidationFailureType? failureType = null,
             Exception? innerException = null)
-            : base(messageDetail, exceptionType, stackFrame, securityKey, failureType, innerException)
+            : base(messageDetail, ValidationFailureType.SigningKeyValidationFailed, exceptionType, stackFrame, securityKey, innerException)
         {
         }
     }

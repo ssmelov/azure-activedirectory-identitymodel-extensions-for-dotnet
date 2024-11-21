@@ -107,10 +107,10 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             {
                 return new IssuerSigningKeyValidationError(
                     new MessageDetail(Tokens.LogMessages.IDX10274),
+                    ValidationFailureType.IssuerSigningKeyValidatorThrew,
                     typeof(SecurityTokenInvalidSigningKeyException),
                     ValidationError.GetCurrentStackFrame(),
                     samlToken.SigningKey,
-                    ValidationFailureType.IssuerSigningKeyValidatorThrew,
                     ex);
             }
 

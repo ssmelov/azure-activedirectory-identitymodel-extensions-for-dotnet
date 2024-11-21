@@ -54,7 +54,7 @@ namespace Microsoft.IdentityModel.Tokens
             CallContext? callContext)
         {
             if (validationParameters == null)
-                return ValidationError.NullParameter(
+                return IssuerSigningKeyValidationError.NullParameter(
                     nameof(validationParameters),
                     ValidationError.GetCurrentStackFrame());
 
