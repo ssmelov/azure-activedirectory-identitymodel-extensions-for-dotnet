@@ -77,11 +77,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new CustomAudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.CustomAudienceValidatorDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(SecurityTokenInvalidAudienceException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 160),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed)
+                        null)
                 });
 
                 // CustomAudienceValidationError : AudienceValidationError, ExceptionType: CustomSecurityTokenInvalidAudienceException : SecurityTokenInvalidAudienceException
@@ -97,11 +97,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new CustomAudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.CustomAudienceValidatorCustomExceptionDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(CustomSecurityTokenInvalidAudienceException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 175),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed),
+                        null),
                 });
 
                 // CustomAudienceValidationError : AudienceValidationError, ExceptionType: NotSupportedException : SystemException
@@ -120,11 +120,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new CustomAudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.CustomAudienceValidatorUnknownExceptionDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(NotSupportedException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 205),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed),
+                        null),
                 });
 
                 // CustomAudienceValidationError : AudienceValidationError, ExceptionType: NotSupportedException : SystemException, ValidationFailureType: CustomAudienceValidationFailureType
@@ -140,11 +140,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new CustomAudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.CustomAudienceValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                        CustomAudienceValidationError.CustomAudienceValidationFailureType,
                         typeof(CustomSecurityTokenInvalidAudienceException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 190),
                         tokenAudiences,
-                        null,
-                        CustomAudienceValidationError.CustomAudienceValidationFailureType),
+                        null),
                 });
                 #endregion
 
@@ -163,11 +163,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new AudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.AudienceValidatorDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(SecurityTokenInvalidAudienceException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 235),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed),
+                        null),
                 });
 
                 // AudienceValidationError : ValidationError, ExceptionType:  CustomSecurityTokenInvalidAudienceException : SecurityTokenInvalidAudienceException
@@ -186,11 +186,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new AudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.AudienceValidatorCustomAudienceExceptionTypeDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(CustomSecurityTokenInvalidAudienceException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 259),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed),
+                        null),
                 });
 
                 // AudienceValidationError : ValidationError, ExceptionType:  CustomSecurityTokenException : SystemException
@@ -209,11 +209,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new AudienceValidationError(
                         new MessageDetail(
                             nameof(CustomAudienceValidationDelegates.AudienceValidatorCustomExceptionTypeDelegate), null),
+                        ValidationFailureType.AudienceValidationFailed,
                         typeof(CustomSecurityTokenException),
                         new StackFrame("CustomAudienceValidationDelegates.cs", 274),
                         tokenAudiences,
-                        null,
-                        ValidationFailureType.AudienceValidationFailed),
+                        null),
                 });
 
                 // AudienceValidationError : ValidationError, ExceptionType: SecurityTokenInvalidAudienceException, inner: CustomSecurityTokenInvalidAudienceException
@@ -230,11 +230,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     AudienceValidationError = new AudienceValidationError(
                         new MessageDetail(
                             string.Format(Tokens.LogMessages.IDX10270), null),
+                        ValidationFailureType.AudienceValidatorThrew,
                         typeof(SecurityTokenInvalidAudienceException),
                         new StackFrame("SamlSecurityTokenHandler.ValidateToken.Internal.cs", 250),
                         tokenAudiences,
                         null,
-                        ValidationFailureType.AudienceValidatorThrew,
                         new SecurityTokenInvalidAudienceException(nameof(CustomAudienceValidationDelegates.AudienceValidatorThrows))
                     )
                 });

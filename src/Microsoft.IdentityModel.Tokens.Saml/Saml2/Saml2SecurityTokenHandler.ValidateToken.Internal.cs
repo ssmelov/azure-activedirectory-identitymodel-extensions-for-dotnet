@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -200,11 +201,11 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
                 {
                     return new AudienceValidationError(
                         new MessageDetail(Tokens.LogMessages.IDX10270),
+                        ValidationFailureType.AudienceValidatorThrew,
                         typeof(SecurityTokenInvalidAudienceException),
                         ValidationError.GetCurrentStackFrame(),
                         audiencesAsList,
                         validationParameters.ValidAudiences,
-                        ValidationFailureType.AudienceValidatorThrew,
                         ex);
                 }
 

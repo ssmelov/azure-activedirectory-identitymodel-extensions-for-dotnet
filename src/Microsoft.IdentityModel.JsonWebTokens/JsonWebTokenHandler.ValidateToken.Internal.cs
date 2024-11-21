@@ -285,11 +285,11 @@ namespace Microsoft.IdentityModel.JsonWebTokens
             {
                 return new AudienceValidationError(
                     new MessageDetail(TokenLogMessages.IDX10270),
+                    ValidationFailureType.AudienceValidatorThrew,
                     typeof(SecurityTokenInvalidAudienceException),
                     ValidationError.GetCurrentStackFrame(),
                     tokenAudiences,
                     null,
-                    ValidationFailureType.AudienceValidatorThrew,
                     ex);
             }
 

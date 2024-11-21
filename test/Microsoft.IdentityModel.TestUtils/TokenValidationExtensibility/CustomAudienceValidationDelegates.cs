@@ -19,6 +19,7 @@ namespace Microsoft.IdentityModel.TestUtils
             // Returns a CustomAudienceValidationError : AudienceValidationError
             return new CustomAudienceValidationError(
                 new MessageDetail(nameof(CustomAudienceValidatorDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(SecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
@@ -33,6 +34,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomAudienceValidationError(
                 new MessageDetail(nameof(CustomAudienceValidatorCustomExceptionDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(CustomSecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
@@ -47,11 +49,11 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomAudienceValidationError(
                 new MessageDetail(nameof(CustomAudienceValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                CustomAudienceValidationError.CustomAudienceValidationFailureType,
                 typeof(CustomSecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
-                null,
-                CustomAudienceValidationError.CustomAudienceValidationFailureType);
+                null);
         }
 
         internal static ValidationResult<string> CustomAudienceValidatorUnknownExceptionDelegate(
@@ -62,6 +64,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomAudienceValidationError(
                 new MessageDetail(nameof(CustomAudienceValidatorUnknownExceptionDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(NotSupportedException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
@@ -90,6 +93,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new AudienceValidationError(
                 new MessageDetail(nameof(AudienceValidatorDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(SecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
@@ -113,6 +117,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new AudienceValidationError(
                 new MessageDetail(nameof(AudienceValidatorCustomAudienceExceptionTypeDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(CustomSecurityTokenInvalidAudienceException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
@@ -127,6 +132,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new AudienceValidationError(
                 new MessageDetail(nameof(AudienceValidatorCustomExceptionTypeDelegate), null),
+                ValidationFailureType.AudienceValidationFailed,
                 typeof(CustomSecurityTokenException),
                 ValidationError.GetCurrentStackFrame(),
                 tokenAudiences,
