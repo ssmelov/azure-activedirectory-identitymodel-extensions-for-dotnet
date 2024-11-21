@@ -172,6 +172,8 @@ namespace Microsoft.IdentityModel.Logging
                 { OperationStatusTag, operationStatus },
                 { ExceptionTypeTag, exceptionType }
             };
+
+            IdentityModelTelemetry.IncrementConfigurationManagerCounter(tagList);
         }
 
         internal static void RecordTotalDuration(

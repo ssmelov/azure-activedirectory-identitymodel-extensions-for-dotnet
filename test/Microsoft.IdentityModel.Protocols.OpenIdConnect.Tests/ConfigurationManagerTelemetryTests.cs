@@ -47,7 +47,6 @@ namespace Microsoft.IdentityModel.Protocols.OpenIdConnect.Tests
                 theoryData.ConfigurationValidator);
             try
             {
-
                 await configurationManager.GetConfigurationAsync();
 
                 if (theoryData.SecondRequest)
