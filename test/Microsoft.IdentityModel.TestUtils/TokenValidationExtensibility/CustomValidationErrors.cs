@@ -156,6 +156,54 @@ namespace Microsoft.IdentityModel.TestUtils
     }
     #endregion
 
+    #region TokenReplayValidationErrors
+    internal class CustomTokenReplayValidationError : TokenReplayValidationError
+    {
+        /// <summary>
+        /// A custom validation failure type.
+        /// </summary>
+        public static readonly ValidationFailureType CustomTokenReplayValidationFailureType = new TokenReplayValidationFailure("CustomTokenReplayValidationFailureType");
+        private class TokenReplayValidationFailure : ValidationFailureType { internal TokenReplayValidationFailure(string name) : base(name) { } }
+
+        public CustomTokenReplayValidationError(
+            MessageDetail messageDetail,
+            ValidationFailureType validationFailureType,
+            Type exceptionType,
+            StackFrame stackFrame,
+            DateTime? expirationTime,
+            Exception? innerException = null)
+            : base(messageDetail, validationFailureType, exceptionType, stackFrame, expirationTime, innerException)
+        {
+        }
+
+        internal override Exception GetException()
+        {
+            if (ExceptionType == typeof(CustomSecurityTokenReplayDetectedException))
+            {
+                var exception = new CustomSecurityTokenReplayDetectedException(MessageDetail.Message, InnerException);
+                exception.SetValidationError(this);
+
+                return exception;
+            }
+
+            return base.GetException();
+        }
+    }
+
+    internal class CustomTokenReplayWithoutGetExceptionValidationOverrideError : TokenReplayValidationError
+    {
+        public CustomTokenReplayWithoutGetExceptionValidationOverrideError(
+            MessageDetail messageDetail,
+            Type exceptionType,
+            StackFrame stackFrame,
+            DateTime? expirationTime,
+            Exception? innerException = null)
+            : base(messageDetail, ValidationFailureType.TokenReplayValidationFailed, exceptionType, stackFrame, expirationTime, innerException)
+        {
+        }
+    }
+    #endregion
+
     // Other custom validation errors to be added here for signature validation, issuer signing key, etc.
 }
 #nullable restore
