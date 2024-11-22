@@ -19,6 +19,7 @@ namespace Microsoft.IdentityModel.TestUtils
             // Returns a CustomLifetimeValidationError : LifetimeValidationError
             return new CustomLifetimeValidationError(
                 new MessageDetail(nameof(CustomLifetimeValidatorDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(SecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -35,6 +36,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomLifetimeValidationError(
                 new MessageDetail(nameof(CustomLifetimeValidatorCustomExceptionDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(CustomSecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -51,11 +53,11 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomLifetimeValidationError(
                 new MessageDetail(nameof(CustomLifetimeValidatorCustomExceptionCustomFailureTypeDelegate), null),
+                CustomLifetimeValidationError.CustomLifetimeValidationFailureType,
                 typeof(CustomSecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
-                expires,
-                CustomLifetimeValidationError.CustomLifetimeValidationFailureType);
+                expires);
         }
 
         internal static ValidationResult<ValidatedLifetime> CustomLifetimeValidatorUnknownExceptionDelegate(
@@ -67,6 +69,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomLifetimeValidationError(
                 new MessageDetail(nameof(CustomLifetimeValidatorUnknownExceptionDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(NotSupportedException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -83,6 +86,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new CustomLifetimeWithoutGetExceptionValidationOverrideError(
                 new MessageDetail(nameof(CustomLifetimeValidatorWithoutGetExceptionOverrideDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(CustomSecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -99,6 +103,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new LifetimeValidationError(
                 new MessageDetail(nameof(LifetimeValidatorDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(SecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -125,6 +130,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new LifetimeValidationError(
                 new MessageDetail(nameof(LifetimeValidatorCustomLifetimeExceptionTypeDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(CustomSecurityTokenInvalidLifetimeException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
@@ -141,6 +147,7 @@ namespace Microsoft.IdentityModel.TestUtils
         {
             return new LifetimeValidationError(
                 new MessageDetail(nameof(LifetimeValidatorCustomExceptionTypeDelegate), null),
+                ValidationFailureType.LifetimeValidationFailed,
                 typeof(CustomSecurityTokenException),
                 ValidationError.GetCurrentStackFrame(),
                 notBefore,
