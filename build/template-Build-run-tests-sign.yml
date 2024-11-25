@@ -47,8 +47,9 @@ steps:
   displayName: 'Strong Name Bypass'
 
 - powershell: |
-    Push-Location $(WilsonSourceDirectory)
+    Push-Location $(Build.SourcesDirectory)\$(WilsonSourceDirectory)
     $nugetSourceIsExternal = (dotnet nuget list source --format Short).Contains("https://api.nuget.org/v3/index.json")
+    cwd
     if ($nugetSourceIsExternal) {
         dotnet nuget remove source NuGet
         dotnet nuget add source https://identitydivision.pkgs.visualstudio.com/_packaging/IDDP/nuget/v3/index.json -n IDDP
