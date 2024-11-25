@@ -139,5 +139,10 @@ namespace Microsoft.IdentityModel.Tokens
         /// Defines a type that represents the fact that the token replay validation delegate threw an exception.
         /// </summary>
         public static readonly ValidationFailureType TokenReplayValidatorThrew = new TokenReplayValidationFailure("TokenReplayValidatorThrew");
+
+        /// <summary>
+        /// Defines a type that represents the fact that the token type validation delegate threw an exception.
+        /// </summary>
+        public static readonly ValidationFailureType TokenTypeValidatorThrew = new TokenTypeValidationFailure("TokenTypeValidatorThrew");
     }
 }
