@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.IdentityModel.Xml;
 using TokenLogMessages = Microsoft.IdentityModel.Tokens.LogMessages;
 
 #nullable enable
@@ -20,14 +19,14 @@ namespace Microsoft.IdentityModel.Tokens.Saml
         {
             if (samlToken is null)
             {
-                return ValidationError.NullParameter(
+                return SignatureValidationError.NullParameter(
                     nameof(samlToken),
                     ValidationError.GetCurrentStackFrame());
             }
 
             if (validationParameters is null)
             {
-                return ValidationError.NullParameter(
+                return SignatureValidationError.NullParameter(
                     nameof(validationParameters),
                     ValidationError.GetCurrentStackFrame());
             }
@@ -38,7 +37,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
             // If the user wants to accept unsigned tokens, they must implement the delegate
             if (samlToken.Assertion.Signature is null)
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(
                         TokenLogMessages.IDX10504,
                         samlToken.Assertion.CanonicalString),
@@ -103,7 +102,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
             }
 
             if (canMatchKey && keyMatched)
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(
                         TokenLogMessages.IDX10514,
                         keysAttempted?.ToString(),
@@ -121,7 +120,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 keysAttemptedString = keysAttempted!.ToString();
 
             if (keysAttemptedString is not null)
-                return new XmlValidationError(
+                return new SignatureValidationError(
                     new MessageDetail(
                         TokenLogMessages.IDX10512,
                         keysAttemptedString,
@@ -131,7 +130,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                     typeof(SecurityTokenSignatureKeyNotFoundException),
                     ValidationError.GetCurrentStackFrame());
 
-            return new XmlValidationError(
+            return new SignatureValidationError(
                 new MessageDetail(TokenLogMessages.IDX10500),
                 ValidationFailureType.SignatureValidationFailed,
                 typeof(SecurityTokenSignatureKeyNotFoundException),
