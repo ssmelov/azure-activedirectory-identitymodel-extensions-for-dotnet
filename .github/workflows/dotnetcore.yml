@@ -41,7 +41,7 @@ jobs:
           regedit /s .\build\strongNameBypass.reg  
 
     - name: Run the tests
-      run: dotnet test Wilson.sln --collect:"XPlat Code Coverage" --settings:./build/CodeCoverage.runsettings
+      run: dotnet test Wilson/Wilson.sln --collect:"XPlat Code Coverage" --settings:./build/CodeCoverage.runsettings
 
     - name: Create code coverage report
       run: |
