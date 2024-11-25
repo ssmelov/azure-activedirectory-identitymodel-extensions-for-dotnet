@@ -90,14 +90,31 @@ namespace Microsoft.IdentityModel.Tokens.Saml
 
             if (samlToken.Assertion.Conditions is not null)
             {
-                ValidationResult<DateTime?> tokenReplayValidationResult = Validators.ValidateTokenReplay(
-                    samlToken.Assertion.Conditions.NotOnOrAfter,
-                    samlToken.Assertion.CanonicalString,
-                    validationParameters,
-                    callContext);
+                ValidationResult<DateTime?> tokenReplayValidationResult;
 
-                if (!tokenReplayValidationResult.IsValid)
-                    return tokenReplayValidationResult.UnwrapError().AddCurrentStackFrame();
+                try
+                {
+                    tokenReplayValidationResult = validationParameters.TokenReplayValidator(
+                        samlToken.Assertion.Conditions.NotOnOrAfter,
+                        samlToken.Assertion.CanonicalString,
+                        validationParameters,
+                        callContext);
+
+                    if (!tokenReplayValidationResult.IsValid)
+                        return tokenReplayValidationResult.UnwrapError().AddCurrentStackFrame();
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    return new TokenReplayValidationError(
+                        new MessageDetail(Tokens.LogMessages.IDX10276),
+                        ValidationFailureType.TokenReplayValidatorThrew,
+                        typeof(SecurityTokenReplayDetectedException),
+                        ValidationError.GetCurrentStackFrame(),
+                        samlToken.Assertion.Conditions.NotOnOrAfter,
+                        ex);
+                }
             }
 
             ValidationResult<SecurityKey> signatureValidationResult = ValidateSignature(samlToken, validationParameters, callContext);

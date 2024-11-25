@@ -251,7 +251,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
                     IssuerValidatorAsync = SkipValidationDelegates.SkipIssuerValidation,
                     IssuerSigningKeyValidator = issuerSigningKeyValidator,
                     LifetimeValidator = SkipValidationDelegates.SkipLifetimeValidation,
-                    SignatureValidator = (SecurityToken token, ValidationParameters validationParameters, BaseConfiguration? configuration, CallContext? callContext) =>
+                    SignatureValidator = (SecurityToken token, ValidationParameters validationParameters, BaseConfiguration? configuration, CallContext callContext) =>
                     {
                         token.SigningKey = SigningKey;
 
