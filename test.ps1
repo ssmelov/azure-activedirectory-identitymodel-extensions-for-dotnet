@@ -38,38 +38,46 @@ Write-Host "Start Time:     " $startTime
 Write-Host "PSScriptRoot:   " $PSScriptRoot;
 Write-Host "dotnetexe:      " $dotnetexe;
 
+[xml]$frameworkTargets = Get-Content $PSScriptRoot\build\targets.props
+$dotnetTargets = $frameworkTargets.Project.PropertyGroup.SrcTargets -split ';'
+$netStandardTargets = $frameworkTargets.Project.PropertyGroup.SrcStandardTargets -split ';'
+$allFrameworkTargets = $dotnetTargets + $netStandardTargets
+
 $ErrorActionPreference = "Stop"
 
 $testProjects = $buildConfiguration.SelectNodes("root/projects/test/project")
-foreach ($testProject in $testProjects)
+foreach ($testFramework in $allFrameworkTargets)
 {
-    if ($testProject.test -eq "YES")
+    foreach ($testProject in $testProjects)
     {
-        WriteSectionHeader("Test");
-
-        $name = $testProject.name;
-        Write-Host ">>> Set-Location $root\test\$name"
-        pushd
-        Set-Location $root\test\$name
-        Write-Host ">>> Start-Process -wait -passthru -NoNewWindow $dotnetexe 'test $name.csproj' --filter category!=nonwindowstests --no-build --no-restore -v q -c $buildType"
-        $p = Start-Process -wait -passthru -NoNewWindow $dotnetexe "test $name.csproj --filter category!=nonwindowstests --no-build --no-restore -v q -c $buildType"
-
-        if($p.ExitCode -ne 0)
+        if ($testProject.test -eq "YES")
         {
-            if (!$testExitCode)
+            WriteSectionHeader("Test");
+
+            $name = $testProject.name;
+            Write-Host ">>> Set-Location $root\test\$name"
+            pushd
+            Set-Location $root\test\$name
+            Write-Host ">>> Start-Process -wait -passthru -NoNewWindow $dotnetexe 'test $name.csproj' --filter category!=nonwindowstests --no-build --no-restore -f $testFramework -v q -c $buildType"
+            $p = Start-Process -wait -passthru -NoNewWindow $dotnetexe "test $name.csproj --filter category!=nonwindowstests --no-build --no-restore -f $testFramework -v q -c $buildType"
+
+            if($p.ExitCode -ne 0)
             {
-                $failedTestProjects = "$name"
+                if (!$testExitCode)
+                {
+                    $failedTestProjects = "$name"
+                }
+                else
+                {
+                    $failedTestProjects = "$TestFramework, $failedTestProjects, $name"
+                }
             }
-            else
-            {
-                $failedTestProjects = "$failedTestProjects, $name"
-            }
+            $testExitCode = $p.ExitCode + $testExitCode
+
+            popd
+
+            WriteSectionFooter("End Test");
         }
-        $testExitCode = $p.ExitCode + $testExitCode
-
-        popd
-
-        WriteSectionFooter("End Test");
     }
 }
 
