@@ -130,10 +130,20 @@ namespace Microsoft.IdentityModel.Tokens
         private class XmlValidationFailure : ValidationFailureType { internal XmlValidationFailure(string name) : base(name) { } }
 
         /// <summary>
-        /// Defines a type that represents that a token is invalid.
+        /// Defines a type that represents the fact that the algorithm validation delegate threw an exception.
+        /// </summary>
+        public static readonly ValidationFailureType AlgorithmValidatorThrew = new AlgorithmValidationFailure("AlgorithmValidatorThrew");
+
+        /// <summary>
+        /// Defines a type that represents the fact that the issuer validation delegate threw an exception.
         /// </summary>
         public static readonly ValidationFailureType IssuerValidatorThrew = new IssuerValidatorFailure("IssuerValidatorThrew");
         private class IssuerValidatorFailure : ValidationFailureType { internal IssuerValidatorFailure(string name) : base(name) { } }
+
+        /// <summary>
+        /// Defines a type that represents the fact that the signature validation delegate threw an exception.
+        /// </summary>
+        public static readonly ValidationFailureType SignatureValidatorThrew = new SignatureValidationFailure("SignatureValidatorThrew");
 
         /// <summary>
         /// Defines a type that represents the fact that the token replay validation delegate threw an exception.
