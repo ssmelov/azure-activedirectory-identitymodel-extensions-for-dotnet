@@ -90,6 +90,7 @@ namespace Microsoft.IdentityModel.Tokens
         public const string IDX10269 = "IDX10269: IssuerValidationDelegate threw an exception, see inner exception.";
         public const string IDX10272 = "IDX10272: SignatureValidationDelegate threw an exception, see inner exception.";
         public const string IDX10273 = "IDX10273: AlgorithmValidationDelegate threw an exception, see inner exception.";
+        public const string IDX10274 = "IDX10274: IssuerSigningKeyValidationDelegate threw an exception, see inner exception.";
         public const string IDX10275 = "IDX10275: TokenTypeValidationDelegate threw an exception, see inner exception.";
         public const string IDX10276 = "IDX10276: TokenReplayValidationDelegate threw an exception, see inner exception.";
 
