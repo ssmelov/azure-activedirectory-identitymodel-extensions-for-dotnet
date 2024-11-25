@@ -301,13 +301,27 @@ namespace Microsoft.IdentityModel.JsonWebTokens
                     ex);
             }
 
-            ValidationResult<DateTime?> replayValidationResult = validationParameters.TokenReplayValidator(
-                expires, jsonWebToken.EncodedToken, validationParameters, callContext);
+            ValidationResult<DateTime?> replayValidationResult;
 
-            if (!replayValidationResult.IsValid)
+            try
             {
-                StackFrame replayValidationFailureStackFrame = StackFrames.ReplayValidationFailed ??= new StackFrame(true);
-                return replayValidationResult.UnwrapError().AddStackFrame(replayValidationFailureStackFrame);
+                replayValidationResult = validationParameters.TokenReplayValidator(
+                    expires, jsonWebToken.EncodedToken, validationParameters, callContext);
+
+                if (!replayValidationResult.IsValid)
+                    return replayValidationResult.UnwrapError().AddCurrentStackFrame();
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                return new TokenReplayValidationError(
+                    new MessageDetail(TokenLogMessages.IDX10276),
+                    ValidationFailureType.TokenReplayValidatorThrew,
+                    typeof(SecurityTokenReplayDetectedException),
+                    ValidationError.GetCurrentStackFrame(),
+                    expires,
+                    ex);
             }
 
             ValidationResult<ValidatedToken>? actorValidationResult = null;

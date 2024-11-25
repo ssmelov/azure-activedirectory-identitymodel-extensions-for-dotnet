@@ -91,6 +91,7 @@ namespace Microsoft.IdentityModel.Tokens
         public const string IDX10272 = "IDX10272: SignatureValidationDelegate threw an exception, see inner exception.";
         public const string IDX10273 = "IDX10273: AlgorithmValidationDelegate threw an exception, see inner exception.";
         public const string IDX10275 = "IDX10275: TokenTypeValidationDelegate threw an exception, see inner exception.";
+        public const string IDX10276 = "IDX10276: TokenReplayValidationDelegate threw an exception, see inner exception.";
 
         // 10500 - SignatureValidation
         public const string IDX10500 = "IDX10500: Signature validation failed. No security keys were provided to validate the signature.";
