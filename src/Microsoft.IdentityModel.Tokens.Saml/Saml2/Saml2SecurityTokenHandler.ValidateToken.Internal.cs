@@ -67,17 +67,29 @@ namespace Microsoft.IdentityModel.Tokens.Saml2
             if (!conditionsResult.IsValid)
                 return conditionsResult.UnwrapError().AddCurrentStackFrame();
 
-            ValidationResult<ValidatedIssuer> validatedIssuerResult = await validationParameters.IssuerValidatorAsync(
-                samlToken.Issuer,
-                samlToken,
-                validationParameters,
-                callContext,
-                cancellationToken).ConfigureAwait(false);
-
-            if (!validatedIssuerResult.IsValid)
+            try
             {
-                StackFrames.IssuerValidationFailed ??= new StackFrame(true);
-                return validatedIssuerResult.UnwrapError().AddStackFrame(StackFrames.IssuerValidationFailed);
+                ValidationResult<ValidatedIssuer> issuerValidationResult = await validationParameters.IssuerValidatorAsync(
+                    samlToken.Issuer,
+                    samlToken,
+                    validationParameters,
+                    callContext,
+                    cancellationToken).ConfigureAwait(false);
+
+                if (!issuerValidationResult.IsValid)
+                    return issuerValidationResult.UnwrapError().AddCurrentStackFrame();
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                return new IssuerValidationError(
+                    new MessageDetail(Tokens.LogMessages.IDX10269),
+                    ValidationFailureType.IssuerValidatorThrew,
+                    typeof(SecurityTokenInvalidIssuerException),
+                    ValidationError.GetCurrentStackFrame(),
+                    samlToken.Issuer,
+                    ex);
             }
 
             if (samlToken.Assertion.Conditions is not null)

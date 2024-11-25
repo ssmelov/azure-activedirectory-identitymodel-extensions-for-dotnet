@@ -46,7 +46,7 @@ namespace Microsoft.IdentityModel.Tokens
             stackFrame,
             null); // InvalidSigningKey
 
-        protected SecurityKey? InvalidSigningKey { get; set; }
+        protected SecurityKey? InvalidSigningKey { get; }
     }
 }
 #nullable restore

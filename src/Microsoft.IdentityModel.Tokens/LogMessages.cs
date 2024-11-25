@@ -89,6 +89,7 @@ namespace Microsoft.IdentityModel.Tokens
         public const string IDX10268 = "IDX10268: Unable to validate audience, validationParameters.ValidAudiences.Count == 0.";
         public const string IDX10269 = "IDX10269: IssuerValidationDelegate threw an exception, see inner exception.";
         public const string IDX10274 = "IDX10274: IssuerSigningKeyValidationDelegate threw an exception, see inner exception.";
+        public const string IDX10275 = "IDX10275: TokenTypeValidationDelegate threw an exception, see inner exception.";
 
         // 10500 - SignatureValidation
         public const string IDX10500 = "IDX10500: Signature validation failed. No security keys were provided to validate the signature.";
