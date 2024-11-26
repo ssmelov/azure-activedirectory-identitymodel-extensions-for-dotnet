@@ -84,8 +84,8 @@ namespace Microsoft.IdentityModel.Tokens
         /// <summary>
         /// Defines a type that represents that signing key validation failed.
         /// </summary>
-        public static readonly ValidationFailureType SigningKeyValidationFailed = new SigningKeyValidationFailure("SigningKeyValidationFailed");
-        private class SigningKeyValidationFailure : ValidationFailureType { internal SigningKeyValidationFailure(string name) : base(name) { } }
+        public static readonly ValidationFailureType SigningKeyValidationFailed = new IssuerSigningKeyValidationFailure("IssuerSigningKeyValidationFailed");
+        private class IssuerSigningKeyValidationFailure : ValidationFailureType { internal IssuerSigningKeyValidationFailure(string name) : base(name) { } }
 
         /// <summary>
         /// Defines a type that represents that lifetime validation failed.
@@ -144,6 +144,11 @@ namespace Microsoft.IdentityModel.Tokens
         /// Defines a type that represents the fact that the audience validation delegate threw an exception.
         /// </summary>
         public static readonly ValidationFailureType AudienceValidatorThrew = new AudienceValidationFailure("AudienceValidatorThrew");
+
+        /// <summary>
+        /// Defines a type that represents the fact that the issuer signing key validation delegate threw an exception.
+        /// </summary>
+        public static readonly ValidationFailureType IssuerSigningKeyValidatorThrew = new IssuerSigningKeyValidationFailure("IssuerSigningKeyValidatorThrew");
 
         /// <summary>
         /// Defines a type that represents the fact that the signature validation delegate threw an exception.
