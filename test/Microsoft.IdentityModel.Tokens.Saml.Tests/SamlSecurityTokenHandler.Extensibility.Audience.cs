@@ -34,9 +34,7 @@ namespace Microsoft.IdentityModel.Tokens.Saml.Extensibility.Tests
 
                 if (validationResult.IsValid)
                 {
-                    ValidatedToken validatedToken = validationResult.UnwrapResult();
-                    if (validatedToken.ValidatedAudience is not null)
-                        IdentityComparer.AreStringsEqual(validatedToken.ValidatedAudience, theoryData.ValidatedAudience, context);
+                    context.Diffs.Add("validationResult.IsValid == true, expected false");
                 }
                 else
                 {
