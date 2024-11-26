@@ -125,15 +125,32 @@ namespace Microsoft.IdentityModel.Tokens.Saml
                 return signatureValidationResult.UnwrapError().AddStackFrame(StackFrames.SignatureValidationFailed);
             }
 
-            ValidationResult<ValidatedSigningKeyLifetime> issuerSigningKeyValidationResult = validationParameters.IssuerSigningKeyValidator(
-                samlToken.SigningKey,
-                samlToken,
-                validationParameters,
-                null,
-                callContext);
+            ValidationResult<ValidatedSigningKeyLifetime> issuerSigningKeyValidationResult;
 
-            if (!issuerSigningKeyValidationResult.IsValid)
-                return issuerSigningKeyValidationResult.UnwrapError().AddCurrentStackFrame();
+            try
+            {
+                issuerSigningKeyValidationResult = validationParameters.IssuerSigningKeyValidator(
+                    samlToken.SigningKey,
+                    samlToken,
+                    validationParameters,
+                    null,
+                    callContext);
+
+                if (!issuerSigningKeyValidationResult.IsValid)
+                    return issuerSigningKeyValidationResult.UnwrapError().AddCurrentStackFrame();
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+            {
+                return new IssuerSigningKeyValidationError(
+                    new MessageDetail(Tokens.LogMessages.IDX10274),
+                    ValidationFailureType.IssuerSigningKeyValidatorThrew,
+                    typeof(SecurityTokenInvalidSigningKeyException),
+                    ValidationError.GetCurrentStackFrame(),
+                    samlToken.SigningKey,
+                    ex);
+            }
 
             return new ValidatedToken(samlToken, this, validationParameters);
         }
