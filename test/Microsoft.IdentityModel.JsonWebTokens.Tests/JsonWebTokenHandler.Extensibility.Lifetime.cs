@@ -34,9 +34,7 @@ namespace Microsoft.IdentityModel.JsonWebTokens.Extensibility.Tests
 
                 if (validationResult.IsValid)
                 {
-                    ValidatedToken validatedToken = validationResult.UnwrapResult();
-                    if (validatedToken.ValidatedLifetime is not null)
-                        IdentityComparer.AreValidatedLifetimesEqual((ValidatedLifetime)validatedToken.ValidatedLifetime, theoryData.ValidatedLifetime, context);
+                    context.Diffs.Add("validationResult.IsValid == true, expected false");
                 }
                 else
                 {
