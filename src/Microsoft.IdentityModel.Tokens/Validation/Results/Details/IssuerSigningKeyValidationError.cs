@@ -1,33 +1,33 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Diagnostics;
+using System;
 
 #nullable enable
 namespace Microsoft.IdentityModel.Tokens
 {
-    internal class TokenTypeValidationError : ValidationError
+    internal class IssuerSigningKeyValidationError : ValidationError
     {
-        internal TokenTypeValidationError(
+        internal IssuerSigningKeyValidationError(
             MessageDetail messageDetail,
             ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
-            string? invalidTokenType,
+            SecurityKey? invalidSigningKey,
             Exception? innerException = null)
             : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
-            InvalidTokenType = invalidTokenType;
+            InvalidSigningKey = invalidSigningKey;
         }
 
         internal override Exception GetException()
         {
-            if (ExceptionType == typeof(SecurityTokenInvalidTypeException))
+            if (ExceptionType == typeof(SecurityTokenInvalidSigningKeyException))
             {
-                SecurityTokenInvalidTypeException exception = new(MessageDetail.Message, InnerException)
+                SecurityTokenInvalidSigningKeyException? exception = new(MessageDetail.Message, InnerException)
                 {
-                    InvalidType = InvalidTokenType
+                    SigningKey = InvalidSigningKey
                 };
                 exception.SetValidationError(this);
 
@@ -37,14 +37,14 @@ namespace Microsoft.IdentityModel.Tokens
             return base.GetException();
         }
 
-        internal static new TokenTypeValidationError NullParameter(string parameterName, StackFrame stackFrame) => new(
+        internal static new IssuerSigningKeyValidationError NullParameter(string parameterName, StackFrame stackFrame) => new(
             MessageDetail.NullParameter(parameterName),
             ValidationFailureType.NullArgument,
             typeof(SecurityTokenArgumentNullException),
             stackFrame,
-            null); // invalidTokenType
+            null); // InvalidSigningKey
 
-        protected string? InvalidTokenType { get; }
+        protected SecurityKey? InvalidSigningKey { get; }
     }
 }
 #nullable restore

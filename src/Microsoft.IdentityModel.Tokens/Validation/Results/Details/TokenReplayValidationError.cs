@@ -7,28 +7,32 @@ using System.Diagnostics;
 #nullable enable
 namespace Microsoft.IdentityModel.Tokens
 {
-    internal class TokenTypeValidationError : ValidationError
+    internal class TokenReplayValidationError : ValidationError
     {
-        internal TokenTypeValidationError(
+        internal TokenReplayValidationError(
             MessageDetail messageDetail,
             ValidationFailureType validationFailureType,
             Type exceptionType,
             StackFrame stackFrame,
-            string? invalidTokenType,
+            DateTime? expirationTime,
             Exception? innerException = null)
             : base(messageDetail, validationFailureType, exceptionType, stackFrame, innerException)
         {
-            InvalidTokenType = invalidTokenType;
+            ExpirationTime = expirationTime;
         }
 
         internal override Exception GetException()
         {
-            if (ExceptionType == typeof(SecurityTokenInvalidTypeException))
+            if (ExceptionType == typeof(SecurityTokenReplayDetectedException))
             {
-                SecurityTokenInvalidTypeException exception = new(MessageDetail.Message, InnerException)
-                {
-                    InvalidType = InvalidTokenType
-                };
+                SecurityTokenReplayDetectedException exception = new(MessageDetail.Message, InnerException);
+                exception.SetValidationError(this);
+
+                return exception;
+            }
+            else if (ExceptionType == typeof(SecurityTokenReplayAddFailedException))
+            {
+                SecurityTokenReplayAddFailedException exception = new(MessageDetail.Message, InnerException);
                 exception.SetValidationError(this);
 
                 return exception;
@@ -37,14 +41,14 @@ namespace Microsoft.IdentityModel.Tokens
             return base.GetException();
         }
 
-        internal static new TokenTypeValidationError NullParameter(string parameterName, StackFrame stackFrame) => new(
+        internal static new TokenReplayValidationError NullParameter(string parameterName, StackFrame stackFrame) => new(
             MessageDetail.NullParameter(parameterName),
             ValidationFailureType.NullArgument,
             typeof(SecurityTokenArgumentNullException),
             stackFrame,
-            null); // invalidTokenType
+            null);
 
-        protected string? InvalidTokenType { get; }
+        protected DateTime? ExpirationTime { get; }
     }
 }
 #nullable restore
