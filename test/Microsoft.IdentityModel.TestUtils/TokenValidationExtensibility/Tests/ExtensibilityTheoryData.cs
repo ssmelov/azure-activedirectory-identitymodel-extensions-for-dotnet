@@ -25,7 +25,7 @@ namespace Microsoft.IdentityModel.TestUtils.TokenValidationExtensibility.Tests
             ValidationParameters = ValidationParametersSkippingValidations();
         }
 
-        private IExtensibilityTestingTokenHandler SecurityTokenHandlerForType(string tokenHandlerType)
+        private IExtensibilityTestingTokenHandler CreateSecurityTokenHandlerForType(string tokenHandlerType)
         {
             return tokenHandlerType switch
             {
@@ -53,7 +53,7 @@ namespace Microsoft.IdentityModel.TestUtils.TokenValidationExtensibility.Tests
             return securityTokenDescriptor;
         }
 
-        private ValidationParameters ValidationParametersSkippingValidations()
+        private ValidationParameters CreateValidationParametersSkippingValidations()
         {
             var validationParameters = new ValidationParameters();
 
