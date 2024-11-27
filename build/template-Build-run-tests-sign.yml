@@ -52,9 +52,12 @@ steps:
     Write-Output "Location $lo"
     if ($nugetSourceIsExternal) {
         Write-Output "File has source"
-        dotnet nuget remove source NuGet
-        dotnet nuget add source https://identitydivision.pkgs.visualstudio.com/_packaging/IDDP/nuget/v3/index.json -n IDDP
-        dotnet nuget list source
+        $a = dotnet nuget remove source NuGet
+        Write-Output "NugetA  $a"
+        $b = dotnet nuget add source https://identitydivision.pkgs.visualstudio.com/_packaging/IDDP/nuget/v3/index.json -n IDDP
+        Write-Output "NugetB  $b"
+        $c = dotnet nuget list source
+        Write-Output "NugetC  $c"
     }
   workingDirectory: '$(Build.SourcesDirectory)\$(WilsonSourceDirectory)'
   displayName: 'Remove external "NuGet" Source and add "IDDP artifacts" as a NuGet Source, if needed.'
