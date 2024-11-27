@@ -47,7 +47,6 @@ steps:
   displayName: 'Strong Name Bypass'
 
 - powershell: |
-    $q = (dotnet nuget list source --format Short)
     $nugetSourceIsExternal = (dotnet nuget list source --format Short).Contains("https://api.nuget.org/v3/index.json")
     if ($nugetSourceIsExternal) {
         dotnet nuget remove source NuGet
@@ -56,6 +55,8 @@ steps:
     }
   workingDirectory: '$(Build.SourcesDirectory)\$(WilsonSourceDirectory)'
   displayName: 'Remove external "NuGet" Source and add "IDDP artifacts" as a NuGet Source, if needed.'
+  env:
+    DOTNET_NOLOGO: 1
 
 - task: DotNetCoreCLI@2
   displayName: Build
