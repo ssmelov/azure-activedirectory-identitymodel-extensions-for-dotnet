@@ -23,6 +23,9 @@ namespace Microsoft.IdentityModel.Protocols
         private bool _isFirstRefreshRequest = true;
         private readonly SemaphoreSlim _configurationNullLock = new SemaphoreSlim(1);
 
+        private AutoResetEvent _updateMetadata = new AutoResetEvent(false);
+        private Task _updateConfigTask;
+
         private readonly IDocumentRetriever _docRetriever;
         private readonly IConfigurationRetriever<T> _configRetriever;
         private readonly IConfigurationValidator<T> _configValidator;
@@ -214,7 +217,11 @@ namespace Microsoft.IdentityModel.Protocols
             {
                 if (Interlocked.CompareExchange(ref _configurationRetrieverState, ConfigurationRetrieverRunning, ConfigurationRetrieverIdle) == ConfigurationRetrieverIdle)
                 {
-                    _ = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
+                    if (_updateConfigTask == null)
+                        _updateConfigTask = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
+
+                    _updateMetadata.Set();
+                    //_ = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
                 }
             }
 
@@ -240,44 +247,48 @@ namespace Microsoft.IdentityModel.Protocols
         private void UpdateCurrentConfiguration()
         {
 #pragma warning disable CA1031 // Do not catch general exception types
-            try
+            while (true)
             {
-                T configuration = _configRetriever.GetConfigurationAsync(
-                    MetadataAddress,
-                    _docRetriever,
-                    CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
-
-                if (_configValidator == null)
+                _updateMetadata.WaitOne();
+                try
                 {
-                    UpdateConfiguration(configuration);
-                }
-                else
-                {
-                    ConfigurationValidationResult result = _configValidator.Validate(configuration);
+                    T configuration = _configRetriever.GetConfigurationAsync(
+                        MetadataAddress,
+                        _docRetriever,
+                        CancellationToken.None).ConfigureAwait(false).GetAwaiter().GetResult();
 
-                    if (!result.Succeeded)
-                        LogHelper.LogExceptionMessage(
-                            new InvalidConfigurationException(
-                                LogHelper.FormatInvariant(
-                                    LogMessages.IDX20810,
-                                    result.ErrorMessage)));
-                    else
+                    if (_configValidator == null)
+                    {
                         UpdateConfiguration(configuration);
+                    }
+                    else
+                    {
+                        ConfigurationValidationResult result = _configValidator.Validate(configuration);
+
+                        if (!result.Succeeded)
+                            LogHelper.LogExceptionMessage(
+                                new InvalidConfigurationException(
+                                    LogHelper.FormatInvariant(
+                                        LogMessages.IDX20810,
+                                        result.ErrorMessage)));
+                        else
+                            UpdateConfiguration(configuration);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.LogExceptionMessage(
-                    new InvalidOperationException(
-                        LogHelper.FormatInvariant(
-                            LogMessages.IDX20806,
-                            LogHelper.MarkAsNonPII(MetadataAddress ?? "null"),
-                            ex),
-                        ex));
-            }
-            finally
-            {
-                Interlocked.Exchange(ref _configurationRetrieverState, ConfigurationRetrieverIdle);
+                catch (Exception ex)
+                {
+                    LogHelper.LogExceptionMessage(
+                        new InvalidOperationException(
+                            LogHelper.FormatInvariant(
+                                LogMessages.IDX20806,
+                                LogHelper.MarkAsNonPII(MetadataAddress ?? "null"),
+                                ex),
+                            ex));
+                }
+                finally
+                {
+                    Interlocked.Exchange(ref _configurationRetrieverState, ConfigurationRetrieverIdle);
+                }
             }
 #pragma warning restore CA1031 // Do not catch general exception types
         }
@@ -316,7 +327,12 @@ namespace Microsoft.IdentityModel.Protocols
                 _isFirstRefreshRequest = false;
                 if (Interlocked.CompareExchange(ref _configurationRetrieverState, ConfigurationRetrieverRunning, ConfigurationRetrieverIdle) == ConfigurationRetrieverIdle)
                 {
-                    _ = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
+                    if (_updateConfigTask == null)
+                        _updateConfigTask = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
+
+                    _updateMetadata.Set();
+
+                    //_ = Task.Run(UpdateCurrentConfiguration, CancellationToken.None);
                     _lastRequestRefresh = now;
                 }
             }
