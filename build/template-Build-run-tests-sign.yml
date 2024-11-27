@@ -49,7 +49,7 @@ steps:
 - powershell: |
     $nugetSourceIsExternal = (dotnet nuget list source --format Short).Contains("https://api.nuget.org/v3/index.json")
     $lo = Get-Location
-    Write-Output "Location $lo"
+    Write-Output "Location1 $lo $nugetSourceIsExternal"
     if ($nugetSourceIsExternal) {
         Write-Output "File has source"
         $a = dotnet nuget remove source NuGet
