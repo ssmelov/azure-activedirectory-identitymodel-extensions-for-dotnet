@@ -48,7 +48,8 @@ steps:
 
 - powershell: |
     $q = (dotnet nuget list source --format Short)
-    $nugetSourceIsExternal = $q.Contains("https://api.nuget.org/v3/index.json")
+    $q2 = (dotnet nuget list source --format Short)
+    $nugetSourceIsExternal = $q2.Contains("https://api.nuget.org/v3/index.json")
     $lo = Get-Location
     Write-Output "Location0 $q $nugetSourceIsExternal"
     Write-Output "Location1 $lo $nugetSourceIsExternal"
