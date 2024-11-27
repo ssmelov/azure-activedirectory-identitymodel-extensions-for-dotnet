@@ -19,10 +19,10 @@ namespace Microsoft.IdentityModel.TestUtils.TokenValidationExtensibility.Tests
             int extraStackFrames) : base(testId)
         {
             ExtraStackFrames = extraStackFrames;
-            TokenHandler = SecurityTokenHandlerForType(tokenHandlerType);
+            TokenHandler = CreateSecurityTokenHandlerForType(tokenHandlerType);
             _tokenHandlerType = tokenHandlerType;
 
-            ValidationParameters = ValidationParametersSkippingValidations();
+            ValidationParameters = CreateValidationParametersSkippingValidations();
         }
 
         private IExtensibilityTestingTokenHandler CreateSecurityTokenHandlerForType(string tokenHandlerType)
@@ -43,8 +43,7 @@ namespace Microsoft.IdentityModel.TestUtils.TokenValidationExtensibility.Tests
             ClaimsIdentity subject = tokenHandlerType switch
             {
                 "JWT" => Default.ClaimsIdentity,
-                "SAML" => Default.SamlClaimsIdentity,
-                "SAML2" => Default.SamlClaimsIdentity,
+                "SAML" or "SAML2" => Default.SamlClaimsIdentity,
                 _ => throw new NotImplementedException(tokenHandlerType)
             };
 
