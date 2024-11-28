@@ -29,7 +29,7 @@ namespace Microsoft.IdentityModel.Validators.Tests
                 new AadIssuerValidatorTheoryData("V1_TemplateWithoutTrailingSlash_Matches_V1_IssuerWithoutTrailingSlash_Success")
                 {
                     TemplatedIssuer = ValidatorConstants.AadIssuerV1CommonAuthorityWithoutTrailingSlash,
-                    TokenIssuer = ValidatorConstants.V1IssuerWithouTrailingSlash,
+                    TokenIssuer = ValidatorConstants.V1IssuerWithoutTrailingSlash,
                     TenantIdClaim = ValidatorConstants.TenantIdAsGuid,
                     ExpectedResult = true,
                 },
